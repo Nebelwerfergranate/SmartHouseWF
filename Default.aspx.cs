@@ -8,9 +8,13 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
 {
+    public object currentItem = "nanana";
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        Draw();
+        Repeater1.DataSource = Session["Panel"];
+        DataBind();
+        //Draw();
     }
 
     protected void AddDevice(int type, int id)
@@ -71,5 +75,10 @@ public partial class _Default : System.Web.UI.Page
         //Draw();
         AddDevice(3, ((List<int>)Session["Panel"]).Count - 1);
         //Panel1.Controls.Add(new TextBox());
+    }
+    protected void Repeater1_ItemCreated(object sender, RepeaterItemEventArgs e)
+    {
+        currentItem = e.Item.DataItem;
+        Response.Write(e.Item.DataItem);
     }
 }

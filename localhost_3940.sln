@@ -8,20 +8,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "3-prot", "http://localhost:
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_3940"
-		Debug.AspNetCompiler.PhysicalPath = "D:\C# VS\3-prot\"
+		Debug.AspNetCompiler.PhysicalPath = "..\3-prot\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_3940\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_3940"
-		Release.AspNetCompiler.PhysicalPath = "D:\C# VS\3-prot\"
+		Release.AspNetCompiler.PhysicalPath = "..\3-prot\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_3940\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		SlnRelativePath = "D:\C# VS\3-prot\"
+		SlnRelativePath = "..\3-prot\"
 	EndProjectSection
 EndProject
 Global
