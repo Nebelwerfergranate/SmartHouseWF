@@ -5,90 +5,110 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SmartHouse;
+using SmartHouseWF.Models.DeviceManager;
 
 namespace SmartHouseWF
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
+        private DeviceManager deviceManager;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            Clock clock = null;
             if (!IsPostBack)
             {
-                clock = new Clock("myClock");
-                Session["myClock"] = clock;
+                deviceManager = new DeviceManager(new Device[0]);
+                deviceManager.AddClock("myClock");
+                Session["devices"] = deviceManager.GetDevices();
             }
             else
             {
-                clock = (Clock) Session["myClock"];
+                deviceManager = new DeviceManager((Device[])Session["devices"]);
             }
-            Label1.Text = clock.CurrentTime.ToLongTimeString();
         }
 
-
-        protected void AddDevice(int type, int id)
+        protected void Page_PreRender(object sender, EventArgs e)
         {
-            Panel device = new Panel();
-            Button deleteButton = new Button();
-            deleteButton.Command += Delete;
-            deleteButton.ID = id.ToString();
-            deleteButton.Text = "delete!";
-            //deleteButton.OnClientClick = "alert('куку')";
+            Repeater1.DataSource = deviceManager.GetDevices();
+            Repeater1.DataBind();
+            Session["devices"] = deviceManager.GetDevices();
+        }
 
-            device.Controls.Add(deleteButton);
-
-            switch (type)
+        protected void OnItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            string name = ((Label)e.Item.FindControl("Name")).Text;
+            if (e.CommandName == "Remove")
             {
-                case 1: device.Controls.Add(new RadioButton());
-                    break;
-                case 2: device.Controls.Add(new CheckBox());
-                    break;
-                case 3: device.Controls.Add(new TextBox());
-                    break;
+                deviceManager.RemoveByName(name);
             }
-            Panel1.Controls.Add(device);
-        }
-
-        protected void Delete(object sender, EventArgs e)
-        {
-            int id = Int32.Parse(((Button)sender).ID);
-            ((List<int>)Session["Panel"]).RemoveAt(id);
-            Response.Write(id);
-            Response.Write("lalala");
-            Draw();
-        }
-
-        protected void Draw()
-        {
-            Panel1.Controls.Clear();
-            List<int> panelInfo = (List<int>)Session["Panel"];
-            for (int i = 0; i < panelInfo.Count; i++)
+            else if (e.CommandName == "Toggle")
             {
-                int elTypeId = panelInfo[i];
-                AddDevice(elTypeId, i);
+                Device device = deviceManager.GetDeviceByName(name);
+                if (device.IsOn)
+                {
+                    device.TurnOff();
+                }
+                else
+                {
+                    device.TurnOn();
+                }
             }
         }
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            ((List<int>)Session["Panel"]).Add(1);
-            Draw();
-            //AddDevice(1, ((List<int>)Session["Panel"]).Count - 1);
-            //Panel1.Controls.Add(new RadioButton());
 
-        }
-        protected void Button2_Click(object sender, EventArgs e)
+        protected void OnItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            ((List<int>)Session["Panel"]).Add(2);
-            Draw();
-            //AddDevice(2, ((List<int>)Session["Panel"]).Count - 1);
-            //Panel1.Controls.Add(new CheckBox());
+            if (e.Item.ItemType != ListItemType.Item &&
+                e.Item.ItemType != ListItemType.AlternatingItem)
+            {
+                return;
+            }
+
+            Device device = (Device)e.Item.DataItem;
+
+            ((Label)e.Item.FindControl("Name")).Text = device.Name;
+
+            Label stateLabel = (Label)e.Item.FindControl("State");
+            if (device.IsOn)
+            {
+                stateLabel.Text = "Включен";
+            }
+            else
+            {
+                stateLabel.Text = "Выключен";
+            }
+
+            if (device is IClock)
+            {
+                Label currentTimeLabel = (Label) e.Item.FindControl("CurrentTime");
+                currentTimeLabel.Visible = true;
+                currentTimeLabel.CssClass = "TimeField";
+                if (!device.IsOn)
+                {
+                    currentTimeLabel.Text = "-";
+                }
+                else
+                {
+                    currentTimeLabel.Text = ((Clock)device).CurrentTime.ToLongTimeString();
+                }
+            }
         }
-        protected void Button3_Click(object sender, EventArgs e)
+
+        protected void AddButton_Click(object sender, EventArgs e)
         {
-            ((List<int>)Session["Panel"]).Add(3);
-            Draw();
-            //AddDevice(3, ((List<int>)Session["Panel"]).Count - 1);
-            //Panel1.Controls.Add(new TextBox());
+            string name = Request.Form["newDeviceName"];
+            if (name == "")
+            {
+                Messanger.Text = "Имя не должно быть пустым!";
+                return;
+            }
+            if (ClockRadio.Checked)
+            {
+                Messanger.Text = deviceManager.AddClock(name);
+            }
+            else if (SomethingElseRadio.Checked)
+            {
+                Messanger.Text = "Что-то куда-то было добавлено...";
+            }
         }
     }
 }

@@ -9,12 +9,12 @@
         // Constructors
         protected Device(string name)
         {
-            Name = name.Replace(' ','_');
+            Name = name;
         }
 
 
         // Properties
-        public virtual string Name
+        public string Name
         {get; set; }
         public bool IsOn
         {

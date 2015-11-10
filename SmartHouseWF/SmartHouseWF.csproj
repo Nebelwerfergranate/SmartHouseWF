@@ -73,6 +73,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeviceManager\DeviceManager.cs" />
     <Compile Include="Models\SmartHouse\Delegates\OperationDelegate.cs" />
     <Compile Include="Models\SmartHouse\Devices\Clock.cs" />
     <Compile Include="Models\SmartHouse\Devices\Coldstore.cs" />
