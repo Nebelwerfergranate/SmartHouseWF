@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="SmartHouseWF.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="SmartHouseWF.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -17,6 +17,10 @@
     
         <br />
         <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        
+        <asp:Repeater ID="Repeater1" runat="server">
+            
+        </asp:Repeater>
     </div>
     </form>
 </body>
