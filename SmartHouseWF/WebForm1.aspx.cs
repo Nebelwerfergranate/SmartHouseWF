@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SmartHouse;
 
 namespace SmartHouseWF
 {
@@ -11,7 +12,17 @@ namespace SmartHouseWF
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Clock clock = null;
+            if (!IsPostBack)
+            {
+                clock = new Clock("myClock");
+                Session["myClock"] = clock;
+            }
+            else
+            {
+                clock = (Clock) Session["myClock"];
+            }
+            Label1.Text = clock.CurrentTime.ToLongTimeString();
         }
 
 
