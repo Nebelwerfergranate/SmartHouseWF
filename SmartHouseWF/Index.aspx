@@ -10,8 +10,8 @@
     <form id="form1" runat="server">
         <div>
             <asp:Panel ID="Panel1" runat="server">
-                <input type="text" name="newDeviceName" value=""/>
-                <asp:RadioButton runat="server" ID="ClockRadio" GroupName="DeviceType" Text="Часы" Checked="True"/>
+                <input type="text" name="newDeviceName" value="" />
+                <asp:RadioButton runat="server" ID="ClockRadio" GroupName="DeviceType" Text="Часы" Checked="True" />
                 <asp:RadioButton runat="server" ID="SomethingElseRadio" GroupName="DeviceType" Text="Что-то еще" />
                 <asp:Button ID="AddButton" runat="server" OnClick="AddButton_Click" Text="Добавить устройство" />
                 <br />
@@ -32,8 +32,10 @@
                             <asp:Label runat="server" ID="State"></asp:Label>
                             <br />
                             <!-- IClock -->
-                            <asp:Label runat="server" ID="CurrentTime" Visible="False"></asp:Label>
-
+                            <asp:Panel runat="server" ID="CurrentTime" Visible="False" CssClass="js_TimeDiv">
+                                <asp:HiddenField runat="server"  ID="js_currentTime"/>
+                                <div class="js_timeField">This div will be turned into a dynamic clock</div>
+                            </asp:Panel>
                         </asp:Panel>
                     </div>
                 </ItemTemplate>

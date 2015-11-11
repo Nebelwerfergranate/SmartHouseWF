@@ -79,16 +79,24 @@ namespace SmartHouseWF
 
             if (device is IClock)
             {
-                Label currentTimeLabel = (Label) e.Item.FindControl("CurrentTime");
-                currentTimeLabel.Visible = true;
-                currentTimeLabel.CssClass = "TimeField";
+                //Label currentTimeLabel = (Pa) e.Item.FindControl("CurrentTime");
+                //currentTimeLabel.Visible = true;
+                //currentTimeLabel.CssClass = "TimeField";
+                Panel currentTimePanel = (Panel)e.Item.FindControl("CurrentTime");
+                currentTimePanel.Visible = true;
+                HiddenField hillenField = (HiddenField)e.Item.FindControl("js_currentTime");
+               
                 if (!device.IsOn)
                 {
-                    currentTimeLabel.Text = "-";
+                    hillenField.Value = "disabled";
                 }
                 else
                 {
-                    currentTimeLabel.Text = ((Clock)device).CurrentTime.ToLongTimeString();
+                    DateTime curTime = ((Clock)device).CurrentTime;
+                    // Convert current time to miliseconds
+                    hillenField.Value = (curTime.Hour * 60 * 60 * 1000 +
+                                    curTime.Minute * 60 * 1000 +
+                                    curTime.Second * 1000).ToString();
                 }
             }
         }
