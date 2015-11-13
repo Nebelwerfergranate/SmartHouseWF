@@ -65,7 +65,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css.css" />
+    <Content Include="Content\jquery.myClock.css" />
     <Content Include="Global.asax" />
+    <Content Include="scripts\jquery-2.1.4.min.js" />
+    <Content Include="scripts\jquery.myClock.js" />
+    <Content Include="scripts\script.js" />
     <Content Include="Web.config" />
     <Content Include="Index.aspx" />
   </ItemGroup>

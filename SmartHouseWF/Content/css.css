@@ -1,0 +1,12 @@
+﻿body {
+}
+.device {
+    max-width: 200px;
+    max-height: 200px;
+    display: inline-block;
+}
+.device input[type="submit"] {
+    height: 30px;
+    width: 75px;
+    margin: 10px
+}
