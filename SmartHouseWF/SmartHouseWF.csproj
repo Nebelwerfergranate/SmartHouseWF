@@ -66,9 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery.jgrowl.css" />
     <Content Include="Content\jquery.myClock.css" />
     <Content Include="Global.asax" />
     <Content Include="scripts\jquery-2.1.4.min.js" />
+    <Content Include="scripts\jquery-ui.min.js" />
+    <Content Include="scripts\jquery.color.js" />
+    <Content Include="scripts\jquery.jgrowl.js" />
     <Content Include="scripts\jquery.myClock.js" />
     <Content Include="scripts\script.js" />
     <Content Include="Web.config" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using SmartHouse;
 using SmartHouseWF.Models.DeviceManager;
@@ -37,13 +39,14 @@ namespace SmartHouseWF
         protected void OnItemCommand(object source, RepeaterCommandEventArgs e)
         {
             string name = ((Label)e.Item.FindControl("Name")).Text;
+            Device device = deviceManager.GetDeviceByName(name);
             if (e.CommandName == "Remove")
             {
                 deviceManager.RemoveByName(name);
             }
             else if (e.CommandName == "Toggle")
             {
-                Device device = deviceManager.GetDeviceByName(name);
+
                 if (device.IsOn)
                 {
                     device.TurnOff();
@@ -51,6 +54,32 @@ namespace SmartHouseWF
                 else
                 {
                     device.TurnOn();
+                }
+            }
+            else if (e.CommandName == "SetTime")
+            {
+                if (device is IClock)
+                {
+                    string userHoursInput = ((TextBox) e.Item.FindControl("Hours")).Text;
+                    string userMinutesInput = ((TextBox)e.Item.FindControl("Minutes")).Text;
+
+                    Regex regex = new Regex("^[0-9]{1,2}$");
+                    Match hoursMatch = regex.Match(userHoursInput);
+                    Match minutesMatch = regex.Match(userMinutesInput);
+       
+                    if (!hoursMatch.Success || !minutesMatch.Success)
+                    {
+                        return;
+                    }
+                   
+                    int hours = Int32.Parse(userHoursInput);
+                    int minutes = Int32.Parse(userMinutesInput);
+                    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
+                    {
+                        return;
+                    }
+                    
+                    ((IClock)device).CurrentTime = new DateTime(1, 1, 1, hours, minutes, 0);
                 }
             }
         }
@@ -79,13 +108,9 @@ namespace SmartHouseWF
 
             if (device is IClock)
             {
-                //Label currentTimeLabel = (Pa) e.Item.FindControl("CurrentTime");
-                //currentTimeLabel.Visible = true;
-                //currentTimeLabel.CssClass = "TimeField";
                 Panel currentTimePanel = (Panel)e.Item.FindControl("CurrentTime");
                 currentTimePanel.Visible = true;
                 HiddenField hillenField = (HiddenField)e.Item.FindControl("js_currentTime");
-               
                 if (!device.IsOn)
                 {
                     hillenField.Value = "disabled";
@@ -97,6 +122,19 @@ namespace SmartHouseWF
                     hillenField.Value = (curTime.Hour * 60 * 60 * 1000 +
                                     curTime.Minute * 60 * 1000 +
                                     curTime.Second * 1000).ToString();
+
+                    TextBox hours = (TextBox)e.Item.FindControl("Hours");
+                    hours.Visible = true;
+                    hours.Text = "";
+
+                    Label timeSeparator = (Label)e.Item.FindControl("TimeSeparator");
+                    timeSeparator.Visible = true;
+                    
+                    TextBox minutes = (TextBox)e.Item.FindControl("Minutes");
+                    minutes.Visible = true;
+                    minutes.Text = "";
+                    
+                    ((Button)(e.Item.FindControl("SetTimeButton"))).Visible = true;
                 }
             }
         }

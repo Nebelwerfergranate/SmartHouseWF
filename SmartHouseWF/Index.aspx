@@ -5,9 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link rel="stylesheet" href="Content/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="Content/jquery.jgrowl.css"/>
     <link rel="stylesheet" href="Content/jquery.myClock.css" />
     <link rel="stylesheet" href="Content/css.css"/>
     <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/jquery-ui.min.js"></script>
+    <script src="scripts/jquery.color.js"></script>
+    <script src="scripts/jquery.jgrowl.js"></script>
     <script src="scripts/jquery.myClock.js"></script>
     <script src="scripts/script.js"></script>
 </head>
@@ -35,6 +40,10 @@
                             <asp:Panel runat="server" ID="CurrentTime" Visible="False" CssClass="js_TimeDiv">
                                 <asp:HiddenField runat="server"  ID="js_currentTime"/>
                                 <div class="js_timeField">This div will be turned into a dynamic clock</div>
+                                <asp:TextBox runat="server" ID="Hours" MaxLength="2" Visible="False" CssClass="js_HoursSetField"></asp:TextBox>
+                                <asp:Label runat="server" ID="TimeSeparator" Visible="False">:</asp:Label>
+                                <asp:TextBox runat="server" ID="Minutes" MaxLength="2" Visible="False" CssClass="js_MinutsSetField"></asp:TextBox>
+                                <asp:Button runat="server" ID="SetTimeButton" Text="Set Time" CommandName="SetTime" Visible="False" CssClass="js_TimeSetSubmit"/>
                             </asp:Panel>
                         </asp:Panel>
                 </ItemTemplate>
