@@ -38,6 +38,7 @@ namespace SmartHouse
                     OperationDone.Invoke(this);
                     isRunning = false;
                     lamp.TurnOff();
+                    ResetTimer();
                 }
             };
         }
@@ -120,6 +121,7 @@ namespace SmartHouse
         public void Stop()
         {
             timer.Stop();
+            ResetTimer();
             isRunning = false;
             if (!this.IsOpen)
             {
@@ -140,6 +142,14 @@ namespace SmartHouse
         {
             isOpen = false;
             backlight.TurnOff();
+        }
+
+        private void ResetTimer()
+        {
+            // Сбросить значение таймера. Нуль установить нельзя, но метод Start() проверяет, 
+            // что бы установленное значение было больше 999. 
+            // Установка значение в интервал от 1 до 998 предотвратит запуск.
+            timer.Interval = 1;
         }
     }
 }

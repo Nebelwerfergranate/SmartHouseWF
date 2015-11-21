@@ -83,7 +83,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DeviceManager\DeviceManager.cs" />
+    <Compile Include="Models\DeviceManager\SessionDeviceManager.cs" />
     <Compile Include="Models\SmartHouse\Delegates\OperationDelegate.cs" />
     <Compile Include="Models\SmartHouse\Devices\Clock.cs" />
     <Compile Include="Models\SmartHouse\Devices\Coldstore.cs" />
@@ -104,6 +104,8 @@
     <Compile Include="Models\SmartHouse\Program\Informer.cs" />
     <Compile Include="Models\SmartHouse\Program\MicrowaveFactory.cs" />
     <Compile Include="Models\SmartHouse\Program\OvenFactory.cs" />
+    <Compile Include="Models\TimeInputValidator.cs" />
+    <Compile Include="Models\TimerHttpHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

@@ -7,25 +7,24 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using SmartHouse;
+using SmartHouseWF.Models;
 using SmartHouseWF.Models.DeviceManager;
 
 namespace SmartHouseWF
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-        private DeviceManager deviceManager;
+        private SessionDeviceManager deviceManager;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                deviceManager = new DeviceManager(new Device[0]);
-                deviceManager.AddClock("myClock");
-                Session["devices"] = deviceManager.GetDevices();
+                deviceManager = new SessionDeviceManager(true);
             }
             else
             {
-                deviceManager = new DeviceManager((Device[])Session["devices"]);
+                deviceManager = new SessionDeviceManager(false);
             }
         }
 
@@ -33,16 +32,19 @@ namespace SmartHouseWF
         {
             Repeater1.DataSource = deviceManager.GetDevices();
             Repeater1.DataBind();
-            Session["devices"] = deviceManager.GetDevices();
         }
 
         protected void OnItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            string name = ((Label)e.Item.FindControl("Name")).Text;
-            Device device = deviceManager.GetDeviceByName(name);
+            TimeInputValidator validator = new TimeInputValidator();
+
+            uint id;
+            UInt32.TryParse(((HiddenField) e.Item.FindControl("DeviceID")).Value, out id);
+            
+            Device device = deviceManager.GetDeviceById(id);
             if (e.CommandName == "Remove")
             {
-                deviceManager.RemoveByName(name);
+                deviceManager.RemoveById(id);
             }
             else if (e.CommandName == "Toggle")
             {
@@ -62,25 +64,53 @@ namespace SmartHouseWF
                 {
                     string userHoursInput = ((TextBox) e.Item.FindControl("Hours")).Text;
                     string userMinutesInput = ((TextBox)e.Item.FindControl("Minutes")).Text;
-
-                    Regex regex = new Regex("^[0-9]{1,2}$");
-                    Match hoursMatch = regex.Match(userHoursInput);
-                    Match minutesMatch = regex.Match(userMinutesInput);
-       
-                    if (!hoursMatch.Success || !minutesMatch.Success)
+                    
+                    int hours = 0;
+                    if (!validator.GetHours(userHoursInput, out hours))
                     {
                         return;
                     }
-                   
-                    int hours = Int32.Parse(userHoursInput);
-                    int minutes = Int32.Parse(userMinutesInput);
-                    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
+
+                    int minutes = 0;
+                    if (!validator.GetMinutes(userMinutesInput, out minutes))
                     {
                         return;
                     }
                     
                     ((IClock)device).CurrentTime = new DateTime(1, 1, 1, hours, minutes, 0);
                 }
+            }
+
+            // ITimer
+            else if (e.CommandName == "SetTimer")
+            {
+                if (device is ITimer)
+                {
+                    string userSecondsInput = ((TextBox)e.Item.FindControl("TimerSeconds")).Text;
+                    string userMinutesInput = ((TextBox)e.Item.FindControl("TimerMinutes")).Text;
+
+                    int seconds = 0;
+                    if (!validator.GetSeconds(userSecondsInput, out seconds))
+                    {
+                        return;
+                    }
+
+                    int minutes = 0;
+                    if (!validator.GetMinutes(userMinutesInput, out minutes))
+                    {
+                        return;
+                    }
+
+                    ((ITimer) device).SetTimer(new TimeSpan(0, minutes, seconds));
+                }   
+            }
+            else if (e.CommandName == "StartTimer")
+            {
+                ((ITimer)device).Start();
+            }
+            else if (e.CommandName == "StopTimer")
+            {
+                ((ITimer)device).Stop();
             }
         }
 
@@ -92,8 +122,12 @@ namespace SmartHouseWF
                 return;
             }
 
-            Device device = (Device)e.Item.DataItem;
+            KeyValuePair<uint, Device> dataItem = (KeyValuePair<uint, Device>)e.Item.DataItem;
+            Device device = dataItem.Value;
 
+            uint id = dataItem.Key;
+            ((HiddenField)e.Item.FindControl("DeviceID")).Value = id.ToString();
+            
             ((Label)e.Item.FindControl("Name")).Text = device.Name;
 
             Label stateLabel = (Label)e.Item.FindControl("State");
@@ -106,6 +140,7 @@ namespace SmartHouseWF
                 stateLabel.Text = "Выключен";
             }
 
+            // IClock
             if (device is IClock)
             {
                 Panel currentTimePanel = (Panel)e.Item.FindControl("CurrentTime");
@@ -137,6 +172,43 @@ namespace SmartHouseWF
                     ((Button)(e.Item.FindControl("SetTimeButton"))).Visible = true;
                 }
             }
+
+            // ITimer
+            if (device is ITimer)
+            {
+                Panel ITimerPanel = (Panel)e.Item.FindControl("ITimerPanel");
+                ITimerPanel.Visible = true;
+
+                if (device.IsOn)
+                {
+                    ((Button)(e.Item.FindControl("StartButton"))).Visible = true;
+                    ((Button)(e.Item.FindControl("StopButton"))).Visible = true;
+
+                    Label TimerIsRunningLabel = (Label)e.Item.FindControl("TimerIsRunning");
+                    TimerIsRunningLabel.Visible = true;
+                    if (((ITimer) device).IsRunning)
+                    {
+                        TimerIsRunningLabel.Text = "Device is running";
+                    }
+                    else
+                    {
+                        TimerIsRunningLabel.Text = "Device not running";
+                    }
+
+                    TextBox hours = (TextBox)e.Item.FindControl("TimerMinutes");
+                    hours.Visible = true;
+                    hours.Text = "";
+
+                    Label timeSeparator = (Label)e.Item.FindControl("TimerTimeSeparator");
+                    timeSeparator.Visible = true;
+
+                    TextBox minutes = (TextBox)e.Item.FindControl("TimerSeconds");
+                    minutes.Visible = true;
+                    minutes.Text = "";
+
+                    ((Button)(e.Item.FindControl("SetTimerButton"))).Visible = true;
+                }
+            }
         }
 
         protected void AddButton_Click(object sender, EventArgs e)
@@ -150,6 +222,10 @@ namespace SmartHouseWF
             if (ClockRadio.Checked)
             {
                 Messanger.Text = deviceManager.AddClock(name);
+            }
+            else if (Oven.Checked)
+            {
+                Messanger.Text = deviceManager.AddOven(name);
             }
             else if (SomethingElseRadio.Checked)
             {

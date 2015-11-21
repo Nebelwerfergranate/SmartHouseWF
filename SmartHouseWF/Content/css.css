@@ -3,7 +3,7 @@
 .device {
     max-width: 200px;
     max-height: 200px;
-    display: inline-block;
+    float: left;
 }
 .device input[type="submit"] {
     height: 30px;
