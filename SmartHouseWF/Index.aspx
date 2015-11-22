@@ -35,30 +35,28 @@
                             <!-- Device -->
                             <asp:Button runat="server" CommandName="Remove" Text="Remove"></asp:Button>
                             <asp:Button runat="server" CommandName="Toggle" Text="Toggle"></asp:Button>
-                            <asp:Label runat="server" ID="Name" CssClass="js_DeviceName"></asp:Label>
+                            <asp:Label runat="server" ID="Name"></asp:Label>
                             <asp:Label runat="server" ID="State"></asp:Label>
                             <asp:HiddenField runat="server" ID="DeviceID"/>
                             <!-- IClock -->
-                            <asp:Panel runat="server" ID="CurrentTime" Visible="False" CssClass="js_TimeDiv">
-                                <asp:HiddenField runat="server"  ID="js_currentTime"/>
-                                <div class="js_timeField">This div will be turned into a dynamic clock</div>
+                            <asp:Panel runat="server" ID="CurrentTime" Visible="False" CssClass="js_IClockDiv">
+                                <asp:HiddenField runat="server"  ID="HiddenTimestamp"/>
+                                <div class="js_dynamicClockDiv">This div will be turned into a dynamic clock</div>
                                 <asp:TextBox runat="server" ID="Hours" MaxLength="2" Visible="False" CssClass="js_HoursSetField"></asp:TextBox>
-                                <asp:Label runat="server" ID="TimeSeparator" Visible="False">:</asp:Label>
-                                <asp:TextBox runat="server" ID="Minutes" MaxLength="2" Visible="False" CssClass="js_MinutsSetField"></asp:TextBox>
+                                <asp:Label runat="server" ID="ClockTimeSeparator" Visible="False">:</asp:Label>
+                                <asp:TextBox runat="server" ID="Minutes" MaxLength="2" Visible="False" CssClass="js_MinutesSetField"></asp:TextBox>
                                 <asp:Button runat="server" ID="SetTimeButton" Text="Set Time" CommandName="SetTime" Visible="False" CssClass="js_TimeSetSubmit"/>
                             </asp:Panel>
                             <!-- ITimer -->
-                            <asp:Panel runat="server" ID="ITimerPanel" Visible="False" CssClass="js_TimerDiv">
+                            <asp:Panel runat="server" ID="ITimerPanel" Visible="False" CssClass="js_ITimerDiv">
                                 <asp:Label runat="server" ID="TimerIsRunning" Visible="False"></asp:Label>
                                 <asp:Button runat="server" ID="StartButton" Text="Start" CommandName="StartTimer" Visible="False"/>
                                 <asp:Button runat="server" ID="StopButton" Text="Stop" CommandName="StopTimer" Visible="False"/>
 
-                                <asp:TextBox runat="server" ID="TimerMinutes" MaxLength="2" Visible="False" CssClass="js_MinutsSetField"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="TimerMinutes" MaxLength="2" Visible="False" CssClass="js_MinutesSetField"></asp:TextBox>
                                 <asp:Label runat="server" ID="TimerTimeSeparator" Visible="False">:</asp:Label>
                                 <asp:TextBox runat="server" ID="TimerSeconds" MaxLength="2" Visible="False" CssClass="js_SecondsSetField"></asp:TextBox>
-                                <asp:Button runat="server" ID="SetTimerButton" Text="Set Time" CommandName="SetTimer" Visible="False" CssClass="js_TimeSetSubmit"/>
-                               
-                                <input type="button" value="Тест печки" class="js_TimerButton"/>
+                                <asp:Button runat="server" ID="SetTimerButton" Text="Set Timer" CommandName="SetTimer" Visible="False" CssClass="js_TimeSetSubmit"/>
                             </asp:Panel>
                         </asp:Panel>
                 </ItemTemplate>

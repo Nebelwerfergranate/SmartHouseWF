@@ -145,7 +145,7 @@ namespace SmartHouseWF
             {
                 Panel currentTimePanel = (Panel)e.Item.FindControl("CurrentTime");
                 currentTimePanel.Visible = true;
-                HiddenField hillenField = (HiddenField)e.Item.FindControl("js_currentTime");
+                HiddenField hillenField = (HiddenField)e.Item.FindControl("HiddenTimestamp");
                 if (!device.IsOn)
                 {
                     hillenField.Value = "disabled";
@@ -162,7 +162,7 @@ namespace SmartHouseWF
                     hours.Visible = true;
                     hours.Text = "";
 
-                    Label timeSeparator = (Label)e.Item.FindControl("TimeSeparator");
+                    Label timeSeparator = (Label)e.Item.FindControl("ClockTimeSeparator");
                     timeSeparator.Visible = true;
                     
                     TextBox minutes = (TextBox)e.Item.FindControl("Minutes");
