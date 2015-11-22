@@ -32,6 +32,8 @@
 
         public abstract double Temperature
         { get; set; }
+        public abstract double MaxTemperature { get; }
+        public abstract double MinTemperature { get; }
 
         public double Volume
         {

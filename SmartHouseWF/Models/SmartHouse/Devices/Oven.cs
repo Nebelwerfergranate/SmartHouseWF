@@ -14,6 +14,8 @@ namespace SmartHouse
         private bool isRunning;
 
         private double temperature = 110;
+        private readonly double minTemperature = 110;
+        private readonly double maxTemperature = 250;
 
         private bool isOpen;
         
@@ -57,11 +59,21 @@ namespace SmartHouse
             get { return temperature; }
             set
             {
-                if (value > 110 && value < 250)
+                if (value >= MinTemperature && value <= MaxTemperature)
                 {
                     temperature = value;
                 }
             }
+        }
+
+        public double MinTemperature
+        {
+            get { return minTemperature; }
+        }
+
+        public double MaxTemperature
+        {
+            get { return maxTemperature; }
         }
 
         public bool IsOpen

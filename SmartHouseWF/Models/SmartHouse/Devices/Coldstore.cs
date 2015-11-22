@@ -4,6 +4,8 @@
     {
         // Fields
         private readonly Lamp backlight;
+        private readonly double minTemperature = -5;
+        private readonly double maxTemperature = 5;
 
 
         // Constructors
@@ -21,11 +23,20 @@
             get { return temperature; }
             set
             {
-                if (value < 5 && value > -5)
+                if (value <= MaxTemperature && value >= MinTemperature)
                 {
                     temperature = value;
                 }
             }
+        }
+        public override double MinTemperature
+        {
+            get { return minTemperature; }
+        }
+
+        public override double MaxTemperature
+        {
+            get { return maxTemperature; }
         }
 
         public double LampPower
