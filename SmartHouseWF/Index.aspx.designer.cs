@@ -49,6 +49,24 @@ namespace SmartHouseWF {
         protected global::System.Web.UI.WebControls.RadioButton Oven;
         
         /// <summary>
+        /// Microwave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton Microwave;
+        
+        /// <summary>
+        /// Fridge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton Fridge;
+        
+        /// <summary>
         /// SomethingElseRadio control.
         /// </summary>
         /// <remarks>

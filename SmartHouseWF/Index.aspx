@@ -23,7 +23,10 @@
                 <input type="text" name="newDeviceName" value="" />
                 <asp:RadioButton runat="server" ID="ClockRadio" GroupName="DeviceType" Text="Часы" Checked="True" />
                 <asp:RadioButton runat="server" ID="Oven" GroupName="DeviceType" Text="Духовка" />
+                <asp:RadioButton runat="server" ID="Microwave" GroupName="DeviceType" Text="Микроволновка" />
+                <asp:RadioButton runat="server" ID="Fridge" GroupName="DeviceType" Text="Чудовище" />
                 <asp:RadioButton runat="server" ID="SomethingElseRadio" GroupName="DeviceType" Text="Что-то еще" />
+
                 <asp:Button ID="AddButton" runat="server" OnClick="AddButton_Click" Text="Добавить устройство" />
                 <asp:Label ID="Messanger" runat="server" Text="всё ок"></asp:Label>
             </asp:Panel>
@@ -38,6 +41,10 @@
                         <asp:Label runat="server" ID="Name"></asp:Label>
                         <asp:Label runat="server" ID="State"></asp:Label>
                         <asp:HiddenField runat="server" ID="DeviceID" />
+                        <!-- IBacklight -->
+                        <asp:Panel runat="server" ID="IBacklightPanel" Visible="False">
+                            <asp:Label runat="server" ID="IsHighlightedLabel"></asp:Label>
+                        </asp:Panel>
                         <!-- IClock -->
                         <asp:Panel runat="server" ID="CurrentTime" Visible="False" CssClass="js_IClockDiv">
                             <asp:HiddenField runat="server" ID="HiddenTimestamp" />
@@ -46,25 +53,6 @@
                             <asp:Label runat="server" ID="ClockTimeSeparator" Visible="False">:</asp:Label>
                             <asp:TextBox runat="server" ID="Minutes" MaxLength="2" Visible="False" CssClass="js_MinutesSetField"></asp:TextBox>
                             <asp:Button runat="server" ID="SetTimeButton" Text="Set Time" CommandName="SetTime" Visible="False" CssClass="js_TimeSetSubmit" />
-                        </asp:Panel>
-                        <!-- ITimer -->
-                        <asp:Panel runat="server" ID="ITimerPanel" Visible="False" CssClass="js_ITimerDiv">
-                            <asp:Label runat="server" ID="TimerIsRunning" Visible="False"></asp:Label>
-                            <asp:Button runat="server" ID="StartButton" Text="Start" CommandName="StartTimer" Visible="False" />
-                            <asp:Button runat="server" ID="StopButton" Text="Stop" CommandName="StopTimer" Visible="False" />
-
-                            <asp:Panel runat="server" ID="ITimerDynamicPanel" Visible="False">
-                                <asp:TextBox runat="server" ID="TimerHours" MaxLength="2" CssClass="js_HoursSetField"></asp:TextBox>
-                                <span runat="server" id="TimerHoursSeparator">:</span>
-                                <asp:TextBox runat="server" ID="TimerMinutes" MaxLength="2" CssClass="js_MinutesSetField"></asp:TextBox>
-                                <span>:</span>
-                                <asp:TextBox runat="server" ID="TimerSeconds" MaxLength="2" CssClass="js_SecondsSetField"></asp:TextBox>
-                                <asp:Button runat="server" ID="SetTimerButton" Text="Set Timer" CommandName="SetTimer" CssClass="js_TimeSetSubmit" />
-                            </asp:Panel>
-                        </asp:Panel>
-                        <!-- IBacklight -->
-                        <asp:Panel runat="server" ID="IBacklightPanel" Visible="False">
-                            <asp:Label runat="server" ID="IsHighlightedLabel"></asp:Label>
                         </asp:Panel>
                         <!-- IOpenable -->
                         <asp:Panel runat="server" ID="IOpenablePanel" Visible="False">
@@ -75,7 +63,7 @@
                         <!-- ITemperature -->
                         <asp:Panel runat="server" ID="ITemperaturePanel" Visible="False" CssClass="js_ITemperatureDiv">
                             <asp:TextBox runat="server" ID="TemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
-                            <asp:Button runat="server" ID="SetTemperatureButton" CommandName="SetTemperature" Text="Set temperature" CssClass="js_TemperatureSetSubmit"/>
+                            <asp:Button runat="server" ID="SetTemperatureButton" CommandName="SetTemperature" Text="Set temperature" CssClass="js_TemperatureSetSubmit" />
                             <span visible="false" class="js_MinTemperatureSpan">
                                 <asp:HiddenField runat="server" ID="MinTemperature" />
                             </span>
@@ -83,9 +71,61 @@
                                 <asp:HiddenField runat="server" ID="MaxTemperature" />
                             </span>
                         </asp:Panel>
+                        <!-- ITimer -->
+                        <asp:Panel runat="server" ID="ITimerPanel" Visible="False" CssClass="js_ITimerDiv">
+                            <asp:Label runat="server" ID="TimerIsRunning"></asp:Label>
+                            <asp:Panel runat="server" ID="ITimerDynamicPanel" Visible="False">
+                                <asp:Button runat="server" ID="StartButton" Text="Start" CommandName="StartTimer" />
+                                <asp:Button runat="server" ID="StopButton" Text="Stop" CommandName="StopTimer" />
+                                <asp:TextBox runat="server" ID="TimerHours" MaxLength="2" CssClass="js_HoursSetField"></asp:TextBox>
+                                <span runat="server" id="TimerHoursSeparator">:</span>
+                                <asp:TextBox runat="server" ID="TimerMinutes" MaxLength="2" CssClass="js_MinutesSetField"></asp:TextBox>
+                                <span>:</span>
+                                <asp:TextBox runat="server" ID="TimerSeconds" MaxLength="2" CssClass="js_SecondsSetField"></asp:TextBox>
+                                <asp:Button runat="server" ID="SetTimerButton" Text="Set Timer" CommandName="SetTimer" CssClass="js_TimeSetSubmit" />
+                            </asp:Panel>
+                        </asp:Panel>
                         <!-- IVolume -->
                         <asp:Panel runat="server" ID="IVolumePanel" Visible="False">
                             <asp:Label runat="server" ID="VolumeLabel"></asp:Label>
+                        </asp:Panel>
+                        <!-- Fridge -->
+                        <asp:Panel runat="server" ID="FridgePanel" Visible="False">
+                            <!-- Coldstore -->
+                            <div>
+                                <asp:Label runat="server" ID="ColdstoreIsOpenLabel"></asp:Label>
+                                <asp:Button runat="server" ID="ColdstoreOpenButton" CommandName="OpenColdstore" Text="Open coldstore" />
+                                <asp:Button runat="server" ID="ColdstoreCloseButton" CommandName="CloseColdstore" Text="Close coldstore" />
+
+                                <asp:TextBox runat="server" ID="ColdstoreTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
+                                <asp:Button runat="server" ID="ColdstoreSetTemperatureButton" CommandName="ColdstoreSetTemperature" Text="Set coldstore temperature" CssClass="js_TemperatureSetSubmit" />
+                                <span visible="false" class="js_MinTemperatureSpan">
+                                    <asp:HiddenField runat="server" ID="ColdstoreMinTemperature" />
+                                </span>
+                                <span visible="false" class="js_MaxTemperatureSpan">
+                                    <asp:HiddenField runat="server" ID="ColdstoreMaxTemperature" />
+                                </span>
+
+                                <asp:Label runat="server" ID="ColdstoreIsHighlightedLabel"></asp:Label>
+                                <asp:Label runat="server" ID="ColdstoreVolumeLabel"></asp:Label>
+                            </div>
+                            <!-- Refrigeratory -->
+                            <div>
+                                <asp:Label runat="server" ID="RefrigeratoryIsOpenLabel"></asp:Label>
+                                <asp:Button runat="server" ID="RefrigeratoryOpenButton" CommandName="OpenRefrigeratory" Text="Open refrigeratory" />
+                                <asp:Button runat="server" ID="RefrigeratoryCloseButton" CommandName="CloseRefrigeratory" Text="Close refrigeratory" />
+
+                                <asp:TextBox runat="server" ID="RefrigeratoryTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
+                                <asp:Button runat="server" ID="RefrigeratorySetTemperatureButton" CommandName="RefrigeratorySetTemperature" Text="Set refrigeratory temperature" CssClass="js_TemperatureSetSubmit" />
+                                <span visible="false" class="js_MinTemperatureSpan">
+                                    <asp:HiddenField runat="server" ID="RefrigeratoryMinTemperature" />
+                                </span>
+                                <span visible="false" class="js_MaxTemperatureSpan">
+                                    <asp:HiddenField runat="server" ID="RefrigeratoryMaxTemperature" />
+                                </span>
+
+                                <asp:Label runat="server" ID="RefrigeratoryVolumeLabel"></asp:Label>
+                            </div>
                         </asp:Panel>
                     </asp:Panel>
                 </ItemTemplate>

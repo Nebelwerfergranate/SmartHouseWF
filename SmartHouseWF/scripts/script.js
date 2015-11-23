@@ -64,7 +64,7 @@ $(document).ready(function () {
         $(submitButton).on("click", function (event) {
             var inf = new Informer(event);
             var hoursField = $(value).find(".js_HoursSetField:first");
-            if (hoursField != null) {
+            if (hoursField[0] != undefined) {
                 var hours = hoursField[0].value;
                 if (!validator.containsTwoDigits(hours)) {
                     inf.informUser("This field must contain digits", hoursField);
@@ -98,7 +98,7 @@ $(document).ready(function () {
                 return;
             }
             seconds = parseInt(seconds);
-            if (!validator.hoursIsValid(seconds)) {
+            if (!validator.secondsIsValid(seconds)) {
                 inf.informUser("this field value is incorrect", secondsField);
                 return;
             }

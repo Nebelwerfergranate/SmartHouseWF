@@ -25,6 +25,16 @@
             get { return coldstore.Temperature; }
             set { coldstore.Temperature = value; }
         }
+
+        public double ColdstoreMinTemperature
+        {
+            get { return coldstore.MinTemperature; }
+        }
+
+        public double ColdstoreMaxTemperature
+        {
+            get { return coldstore.MaxTemperature; }
+        }
         public bool ColdstoreIsHighlighted
         {
             get { return coldstore.IsHighlighted; }
@@ -46,6 +56,16 @@
         {
             get { return refrigeratory.Temperature; }
             set { refrigeratory.Temperature = value; }
+        }
+
+        public double RefrigeratoryMinTemperature
+        {
+            get { return refrigeratory.MinTemperature; }
+        }
+
+        public double RefrigeratoryMaxTemperature
+        {
+            get { return refrigeratory.MaxTemperature; }
         }
         public double RefrigeratoryVolume
         {

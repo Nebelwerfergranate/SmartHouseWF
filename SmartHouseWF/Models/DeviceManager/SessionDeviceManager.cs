@@ -38,19 +38,39 @@ namespace SmartHouseWF.Models.DeviceManager
         {
             Clock clock = new Clock(name);
             AddDevice(clock);
-            string message = "Часы с именем " + name + " добавлены.";
+            string message = "Clock " + name + " has been successfully added.";
             return message;
         }
 
         public string AddOven(string name)
         {
-            Oven oven = new Oven(name, 100500, new Lamp(25));
+            Oven oven = new Oven(name, 47, new Lamp(25));
             oven.OperationDone += (sender) =>
             {
                 //throw new ApplicationException("Печка отработала!!!");
             };
             AddDevice(oven);
-            string message = "Духовка с именем " + name + " добавлена!";
+            string message = "Oven " + name + "  has been successfully added.";
+            return message;
+        }
+
+        public string AddMicrowave(string name)
+        {
+            Microwave microwave = new Microwave(name, 25, new Lamp(25));
+            microwave.OperationDone += (sender) =>
+            {
+                //throw new ApplicationException("Микроволновка отработала!!!");
+            };
+            AddDevice(microwave);
+            string message = "Microwave " + name + "  has been successfully added.";
+            return message;
+        }
+
+        public string AddFridge(string name)
+        {
+            Fridge fridge = new Fridge(name, new Coldstore(100, new Lamp(15)), new Refrigeratory(50));
+            AddDevice(fridge);
+            string message = "Fridge " + name + "  has been successfully added.";
             return message;
         }
 

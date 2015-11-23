@@ -40,8 +40,9 @@ namespace SmartHouseWF
 
             uint id;
             UInt32.TryParse(((HiddenField)e.Item.FindControl("DeviceID")).Value, out id);
-
             Device device = deviceManager.GetDeviceById(id);
+
+            // Device
             if (e.CommandName == "Remove")
             {
                 deviceManager.RemoveById(id);
@@ -58,9 +59,11 @@ namespace SmartHouseWF
                     device.TurnOn();
                 }
             }
-            else if (e.CommandName == "SetTime")
+
+            // IClock
+            if (device is IClock)
             {
-                if (device is IClock)
+                if (e.CommandName == "SetTime")
                 {
                     string userHoursInput = ((TextBox)e.Item.FindControl("Hours")).Text;
                     string userMinutesInput = ((TextBox)e.Item.FindControl("Minutes")).Text;
@@ -81,13 +84,44 @@ namespace SmartHouseWF
                 }
             }
 
-            // ITimer
-            else if (e.CommandName == "SetTimer")
+            // IOpenable
+            if (device is IOpenable)
             {
-                if (device is ITimer)
+                if (e.CommandName == "Open")
+                {
+                    ((IOpenable)device).Open();
+                }
+                else if (e.CommandName == "Close")
+                {
+                    ((IOpenable)device).Close();
+                }
+            }
+
+            // ITemperature
+            if (device is ITemperature)
+            {
+                if (e.CommandName == "SetTemperature")
+                {
+                    string userInput = ((TextBox)e.Item.FindControl("TemperatureTextBox")).Text;
+
+                    int temperature = 0;
+                    if (!validator.GetTemperature(userInput, out temperature))
+                    {
+                        return;
+                    }
+
+                    ((ITemperature)device).Temperature = temperature;
+                }
+            }
+
+            // ITimer
+            if (device is ITimer)
+            {
+                if (e.CommandName == "SetTimer")
                 {
                     string userSecondsInput = ((TextBox)e.Item.FindControl("TimerSeconds")).Text;
                     string userMinutesInput = ((TextBox)e.Item.FindControl("TimerMinutes")).Text;
+                    string userHoursInput = ((TextBox)e.Item.FindControl("TimerHours")).Text;
 
                     int seconds = 0;
                     if (!validator.GetSeconds(userSecondsInput, out seconds))
@@ -101,40 +135,73 @@ namespace SmartHouseWF
                         return;
                     }
 
-                    ((ITimer)device).SetTimer(new TimeSpan(0, minutes, seconds));
+                    int hours = 0;
+                    if (userHoursInput != "")
+                    {
+                        if (!validator.GetHours(userHoursInput, out hours))
+                        {
+                            return;
+                        }
+                    }
+
+                    ((ITimer)device).SetTimer(new TimeSpan(hours, minutes, seconds));
                 }
-            }
-            else if (e.CommandName == "StartTimer")
-            {
-                ((ITimer)device).Start();
-            }
-            else if (e.CommandName == "StopTimer")
-            {
-                ((ITimer)device).Stop();
-            }
-
-            // IOpenable
-            else if (e.CommandName == "Open")
-            {
-                ((IOpenable)device).Open();
-            }
-            else if (e.CommandName == "Close")
-            {
-                ((IOpenable)device).Close();
-            }
-
-            // ITemperature
-            else if (e.CommandName == "SetTemperature")
-            {
-                string userInput = ((TextBox)e.Item.FindControl("TemperatureTextBox")).Text;
-
-                int temperature = 0;
-                if (!validator.GetTemperature(userInput, out temperature))
+                else if (e.CommandName == "StartTimer")
                 {
-                    return;
+                    ((ITimer)device).Start();
+                }
+                else if (e.CommandName == "StopTimer")
+                {
+                    ((ITimer)device).Stop();
+                }
+            }
+
+            // Fridge
+            if (device is Fridge)
+            {
+                // Coldstore
+                if (e.CommandName == "OpenColdstore")
+                {
+                    ((Fridge)device).OpenColdstore();
+                }
+                else if (e.CommandName == "CloseColdstore")
+                {
+                    ((Fridge)device).CloseColdstore();
+                }
+                else if (e.CommandName == "ColdstoreSetTemperature")
+                {
+                    string userInput = ((TextBox)e.Item.FindControl("ColdstoreTemperatureTextBox")).Text;
+
+                    int temperature = 0;
+                    if (!validator.GetTemperature(userInput, out temperature))
+                    {
+                        return;
+                    }
+
+                    ((Fridge)device).ColdstoreTemperature = temperature;
                 }
 
-                ((ITemperature)device).Temperature = temperature;
+                // Refrigeratory
+                else if (e.CommandName == "OpenRefrigeratory")
+                {
+                    ((Fridge)device).OpenRefrigeratory();
+                }
+                else if (e.CommandName == "CloseRefrigeratory")
+                {
+                    ((Fridge)device).CloseRefrigeratory();
+                }
+                else if (e.CommandName == "RefrigeratorySetTemperature")
+                {
+                    string userInput = ((TextBox)e.Item.FindControl("RefrigeratoryTemperatureTextBox")).Text;
+
+                    int temperature = 0;
+                    if (!validator.GetTemperature(userInput, out temperature))
+                    {
+                        return;
+                    }
+
+                    ((Fridge)device).RefrigeratoryTemperature = temperature;
+                }
             }
         }
 
@@ -150,6 +217,7 @@ namespace SmartHouseWF
             Device device = dataItem.Value;
 
             uint id = dataItem.Key;
+
             ((HiddenField)e.Item.FindControl("DeviceID")).Value = id.ToString();
 
             ((Label)e.Item.FindControl("Name")).Text = device.Name;
@@ -164,6 +232,23 @@ namespace SmartHouseWF
                 stateLabel.Text = "Выключен";
             }
 
+            // IBacklight
+            if (device is IBacklight)
+            {
+                Panel IBacklightPanel = (Panel)e.Item.FindControl("IBacklightPanel");
+                IBacklightPanel.Visible = true;
+
+                Label IsHighlightedLabel = (Label)e.Item.FindControl("IsHighlightedLabel");
+                if (((IBacklight)device).IsHighlighted)
+                {
+                    IsHighlightedLabel.Text = "Backlight is on";
+                }
+                else
+                {
+                    IsHighlightedLabel.Text = "Backlight is off";
+                }
+            }
+
             // IClock
             if (device is IClock)
             {
@@ -176,7 +261,7 @@ namespace SmartHouseWF
                 }
                 else
                 {
-                    DateTime curTime = ((Clock)device).CurrentTime;
+                    DateTime curTime = ((IClock)device).CurrentTime;
                     // Convert current time to miliseconds
                     hillenField.Value = (curTime.Hour * 60 * 60 * 1000 +
                                     curTime.Minute * 60 * 1000 +
@@ -194,54 +279,6 @@ namespace SmartHouseWF
                     minutes.Text = "";
 
                     ((Button)(e.Item.FindControl("SetTimeButton"))).Visible = true;
-                }
-            }
-
-            // ITimer
-            if (device is ITimer)
-            {
-                Panel ITimerPanel = (Panel)e.Item.FindControl("ITimerPanel");
-                ITimerPanel.Visible = true;
-
-                if (device.IsOn)
-                {
-                    ((Panel)e.Item.FindControl("ITimerDynamicPanel")).Visible = true;
-
-                    Label TimerIsRunningLabel = (Label)e.Item.FindControl("TimerIsRunning");
-                    if (((ITimer)device).IsRunning)
-                    {
-                        TimerIsRunningLabel.Text = "Device is running";
-                    }
-                    else
-                    {
-                        TimerIsRunningLabel.Text = "Device not running";
-                    }
-
-                    TextBox hours = (TextBox) e.Item.FindControl("TimerHours");
-                    hours.Text = "";
-
-                    TextBox minutes = (TextBox)e.Item.FindControl("TimerMinutes");
-                    minutes.Text = "";
-
-                    TextBox seconds = (TextBox)e.Item.FindControl("TimerSeconds");
-                    seconds.Text = "";
-                }
-            }
-
-            // IBacklight
-            if (device is IBacklight)
-            {
-                Panel IBacklightPanel = (Panel)e.Item.FindControl("IBacklightPanel");
-                IBacklightPanel.Visible = true;
-
-                Label IsHighlightedLabel = (Label)e.Item.FindControl("IsHighlightedLabel");
-                if (((IBacklight)device).IsHighlighted)
-                {
-                    IsHighlightedLabel.Text = "Backlight is on";
-                }
-                else
-                {
-                    IsHighlightedLabel.Text = "Backlight is off";
                 }
             }
 
@@ -265,22 +302,122 @@ namespace SmartHouseWF
             // ITemperature
             if (device is ITemperature)
             {
-                ((Panel) e.Item.FindControl("ITemperaturePanel")).Visible = true;
-                TextBox TemperatureTextBox = (TextBox) e.Item.FindControl("TemperatureTextBox");
-                TemperatureTextBox.Text = ((ITemperature) device).Temperature.ToString();
+                ((Panel)e.Item.FindControl("ITemperaturePanel")).Visible = true;
+                TextBox TemperatureTextBox = (TextBox)e.Item.FindControl("TemperatureTextBox");
+                TemperatureTextBox.Text = ((ITemperature)device).Temperature.ToString();
                 ((HiddenField)e.Item.FindControl("MinTemperature")).Value = ((ITemperature)device).MinTemperature.ToString();
                 ((HiddenField)e.Item.FindControl("MaxTemperature")).Value = ((ITemperature)device).MaxTemperature.ToString();
             }
 
-            // IVolume
+            // ITimer
+            if (device is ITimer)
             {
-                if (device is IVolume)
+                Panel ITimerPanel = (Panel)e.Item.FindControl("ITimerPanel");
+                ITimerPanel.Visible = true;
+
+                Label TimerIsRunningLabel = (Label)e.Item.FindControl("TimerIsRunning");
+                if (((ITimer)device).IsRunning)
                 {
-                   ((Panel) e.Item.FindControl("IVolumePanel")).Visible = true;
-                    ((Label) e.Item.FindControl("VolumeLabel")).Text = "Volume: " +
-                                                                       ((IVolume) device).Volume +
-                                                                       " sm<sup>3</sup>";
+                    TimerIsRunningLabel.Text = "Device is running";
                 }
+                else
+                {
+                    TimerIsRunningLabel.Text = "Device not running";
+                }
+
+                if (device.IsOn)
+                {
+                    ((Panel)e.Item.FindControl("ITimerDynamicPanel")).Visible = true;
+
+                    TextBox hours = (TextBox)e.Item.FindControl("TimerHours");
+                    hours.Text = "";
+
+                    TextBox minutes = (TextBox)e.Item.FindControl("TimerMinutes");
+                    minutes.Text = "";
+
+                    TextBox seconds = (TextBox)e.Item.FindControl("TimerSeconds");
+                    seconds.Text = "";
+                }
+            }
+
+            // IVolume
+            if (device is IVolume)
+            {
+                ((Panel)e.Item.FindControl("IVolumePanel")).Visible = true;
+                ((Label)e.Item.FindControl("VolumeLabel")).Text =
+                    "Volume: " + ((IVolume)device).Volume + " l";
+            }
+
+            // Fridge
+            if (device is Fridge)
+            {
+                ((Panel)e.Item.FindControl("FridgePanel")).Visible = true;
+
+                // Coldstore
+                //+ ColdstoreIsOpenLabel
+                //+ ColdstoreTemperatureTextBox
+                //+ ColdstoreMinTemperature
+                //+ ColdstoreMaxTemperature
+                //+ ColdstoreIsHighlightedLabel
+                //+ ColdstoreVolumeLabel
+                Label coldstoreIsOpenLabel = (Label)e.Item.FindControl("ColdstoreIsOpenLabel");
+                if (((Fridge)device).ColdstoreIsOpen)
+                {
+                    coldstoreIsOpenLabel.Text = "Coldstore is open";
+                }
+                else
+                {
+                    coldstoreIsOpenLabel.Text = "Coldstore is closed";
+                }
+
+                TextBox coldstoreTemperatureTextBox = (TextBox)e.Item.FindControl("ColdstoreTemperatureTextBox");
+                coldstoreTemperatureTextBox.Text = ((Fridge)device).ColdstoreTemperature.ToString();
+                ((HiddenField)e.Item.FindControl("ColdstoreMinTemperature")).Value = ((Fridge)device).ColdstoreMinTemperature.ToString();
+                ((HiddenField)e.Item.FindControl("ColdstoreMaxTemperature")).Value = ((Fridge)device).ColdstoreMaxTemperature.ToString();
+
+                Label coldstoreIsHighlightedLabel = (Label)e.Item.FindControl("ColdstoreIsHighlightedLabel");
+                if (((Fridge)device).ColdstoreIsHighlighted)
+                {
+                    coldstoreIsHighlightedLabel.Text = "Coldstore backlight is on";
+                }
+                else
+                {
+                    coldstoreIsHighlightedLabel.Text = "Coldstore backlight is off";
+                }
+
+                ((Label)e.Item.FindControl("ColdstoreVolumeLabel")).Text =
+                    "Coldstore volume: " + ((Fridge)device).ColdstoreVolume + " l";
+
+                // Refrigeratory
+                //+ RefrigeratoryIsOpenLabel
+                //+ RefrigeratoryTemperatureTextBox
+                //+ RefrigeratoryMinTemperature
+                //+ RefrigeratoryMaxTemperature
+                //+ RefrigeratoryVolumeLabel
+                Label refrigeratoryIsOpenLabel = (Label)e.Item.FindControl("RefrigeratoryIsOpenLabel");
+                if (((Fridge)device).RefrigeratoryIsOpen)
+                {
+                    refrigeratoryIsOpenLabel.Text = "Refrigeratory is open";
+                }
+                else
+                {
+                    refrigeratoryIsOpenLabel.Text = "Refrigeratory is closed";
+                }
+
+                TextBox refrigeratoryTemperatureTextBox = (TextBox)e.Item.FindControl("RefrigeratoryTemperatureTextBox");
+                refrigeratoryTemperatureTextBox.Text = ((Fridge)device).RefrigeratoryTemperature.ToString();
+                ((HiddenField)e.Item.FindControl("RefrigeratoryMinTemperature")).Value = ((Fridge)device).RefrigeratoryMinTemperature.ToString();
+                ((HiddenField)e.Item.FindControl("RefrigeratoryMaxTemperature")).Value = ((Fridge)device).RefrigeratoryMaxTemperature.ToString();
+
+                ((Label)e.Item.FindControl("RefrigeratoryVolumeLabel")).Text =
+                    "Refrigeratory volume: " + ((Fridge)device).RefrigeratoryVolume + " l";
+            }
+
+            // Specific
+            if (device is Microwave)
+            {
+                ((TextBox)e.Item.FindControl("TimerHours")).Visible = false;
+                ((HtmlGenericControl)e.Item.FindControl("TimerHoursSeparator")).Visible = false;
             }
         }
 
@@ -299,6 +436,14 @@ namespace SmartHouseWF
             else if (Oven.Checked)
             {
                 Messanger.Text = deviceManager.AddOven(name);
+            }
+            else if (Microwave.Checked)
+            {
+                Messanger.Text = deviceManager.AddMicrowave(name);
+            }
+            else if (Fridge.Checked)
+            {
+                Messanger.Text = deviceManager.AddFridge(name);
             }
             else if (SomethingElseRadio.Checked)
             {
