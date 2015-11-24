@@ -97,34 +97,38 @@
                                 <asp:Button runat="server" ID="ColdstoreOpenButton" CommandName="OpenColdstore" Text="Open coldstore" />
                                 <asp:Button runat="server" ID="ColdstoreCloseButton" CommandName="CloseColdstore" Text="Close coldstore" />
 
-                                <asp:TextBox runat="server" ID="ColdstoreTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
-                                <asp:Button runat="server" ID="ColdstoreSetTemperatureButton" CommandName="ColdstoreSetTemperature" Text="Set coldstore temperature" CssClass="js_TemperatureSetSubmit" />
-                                <span visible="false" class="js_MinTemperatureSpan">
-                                    <asp:HiddenField runat="server" ID="ColdstoreMinTemperature" />
-                                </span>
-                                <span visible="false" class="js_MaxTemperatureSpan">
-                                    <asp:HiddenField runat="server" ID="ColdstoreMaxTemperature" />
-                                </span>
+                                <div class="js_ITemperatureDiv">
+                                    <asp:TextBox runat="server" ID="ColdstoreTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
+                                    <asp:Button runat="server" ID="ColdstoreSetTemperatureButton" CommandName="ColdstoreSetTemperature" Text="Set coldstore temperature" CssClass="js_TemperatureSetSubmit" />
+                                    <span visible="false" class="js_MinTemperatureSpan">
+                                        <asp:HiddenField runat="server" ID="ColdstoreMinTemperature" />
+                                    </span>
+                                    <span visible="false" class="js_MaxTemperatureSpan">
+                                        <asp:HiddenField runat="server" ID="ColdstoreMaxTemperature" />
+                                    </span>
+                                </div>
 
                                 <asp:Label runat="server" ID="ColdstoreIsHighlightedLabel"></asp:Label>
                                 <asp:Label runat="server" ID="ColdstoreVolumeLabel"></asp:Label>
                             </div>
-                            <!-- Refrigeratory -->
+                            <!-- Freezer -->
                             <div>
-                                <asp:Label runat="server" ID="RefrigeratoryIsOpenLabel"></asp:Label>
-                                <asp:Button runat="server" ID="RefrigeratoryOpenButton" CommandName="OpenRefrigeratory" Text="Open refrigeratory" />
-                                <asp:Button runat="server" ID="RefrigeratoryCloseButton" CommandName="CloseRefrigeratory" Text="Close refrigeratory" />
+                                <asp:Label runat="server" ID="FreezerIsOpenLabel"></asp:Label>
+                                <asp:Button runat="server" ID="FreezerOpenButton" CommandName="OpenFreezer" Text="Open Freezer" />
+                                <asp:Button runat="server" ID="FreezerCloseButton" CommandName="CloseFreezer" Text="Close Freezer" />
 
-                                <asp:TextBox runat="server" ID="RefrigeratoryTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
-                                <asp:Button runat="server" ID="RefrigeratorySetTemperatureButton" CommandName="RefrigeratorySetTemperature" Text="Set refrigeratory temperature" CssClass="js_TemperatureSetSubmit" />
-                                <span visible="false" class="js_MinTemperatureSpan">
-                                    <asp:HiddenField runat="server" ID="RefrigeratoryMinTemperature" />
-                                </span>
-                                <span visible="false" class="js_MaxTemperatureSpan">
-                                    <asp:HiddenField runat="server" ID="RefrigeratoryMaxTemperature" />
-                                </span>
+                                <div class="js_ITemperatureDiv">
+                                    <asp:TextBox runat="server" ID="FreezerTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
+                                    <asp:Button runat="server" ID="FreezerSetTemperatureButton" CommandName="FreezerSetTemperature" Text="Set Freezer temperature" CssClass="js_TemperatureSetSubmit" />
+                                    <span visible="false" class="js_MinTemperatureSpan">
+                                        <asp:HiddenField runat="server" ID="FreezerMinTemperature" />
+                                    </span>
+                                    <span visible="false" class="js_MaxTemperatureSpan">
+                                        <asp:HiddenField runat="server" ID="FreezerMaxTemperature" />
+                                    </span>
+                                </div>
 
-                                <asp:Label runat="server" ID="RefrigeratoryVolumeLabel"></asp:Label>
+                                <asp:Label runat="server" ID="FreezerVolumeLabel"></asp:Label>
                             </div>
                         </asp:Panel>
                     </asp:Panel>

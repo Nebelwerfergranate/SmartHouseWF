@@ -1,14 +1,14 @@
 ﻿namespace SmartHouse
 {
-    public class Refrigeratory : FridgeModule
+    public class Freezer : FridgeModule
     {
         // Fields
-        private readonly double minTemperature = -6;
-        private readonly double maxTemperature = -30;
+        private readonly double minTemperature = -30;
+        private readonly double maxTemperature = -6;
 
         // Constructors
-        public Refrigeratory(uint volume)
-            : base("refrigeratory", volume)
+        public Freezer(uint volume)
+            : base("freezer", volume)
         {
             Temperature = -10;
         }
@@ -20,7 +20,7 @@
             get { return temperature; }
             set
             {
-                if (value <= MinTemperature && value >= MaxTemperature)
+                if (value <= MaxTemperature && value >= MinTemperature)
                 {
                     temperature = value;
                 }

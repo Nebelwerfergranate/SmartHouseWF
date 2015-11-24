@@ -4,14 +4,14 @@
     {
         // Fields
         private readonly Coldstore coldstore;
-        private readonly Refrigeratory refrigeratory;
+        private readonly Freezer freezer;
 
 
         // Constructors
-        public Fridge(string name, Coldstore coldstore, Refrigeratory refrigeratory) : base(name)
+        public Fridge(string name, Coldstore coldstore, Freezer freezer) : base(name)
         {
             this.coldstore = coldstore;
-            this.refrigeratory = refrigeratory;
+            this.freezer = freezer;
         }
 
 
@@ -48,28 +48,28 @@
             get { return coldstore.Volume; }
         }
 
-        public bool RefrigeratoryIsOpen
+        public bool FreezerIsOpen
         {
-            get { return refrigeratory.IsOpen; }
+            get { return freezer.IsOpen; }
         }
-        public double RefrigeratoryTemperature
+        public double FreezerTemperature
         {
-            get { return refrigeratory.Temperature; }
-            set { refrigeratory.Temperature = value; }
-        }
-
-        public double RefrigeratoryMinTemperature
-        {
-            get { return refrigeratory.MinTemperature; }
+            get { return freezer.Temperature; }
+            set { freezer.Temperature = value; }
         }
 
-        public double RefrigeratoryMaxTemperature
+        public double FreezerMinTemperature
         {
-            get { return refrigeratory.MaxTemperature; }
+            get { return freezer.MinTemperature; }
         }
-        public double RefrigeratoryVolume
+
+        public double FreezerMaxTemperature
         {
-            get { return refrigeratory.Volume; }
+            get { return freezer.MaxTemperature; }
+        }
+        public double FreezeryVolume
+        {
+            get { return freezer.Volume; }
         }
 
 
@@ -78,13 +78,13 @@
         {
             base.TurnOn();
             coldstore.TurnOn();
-            refrigeratory.TurnOn();
+            freezer.TurnOn();
         }
         public override void TurnOff()
         {
             base.TurnOff();
             coldstore.TurnOff();
-            refrigeratory.TurnOff();
+            freezer.TurnOff();
         }
 
         public void OpenColdstore()
@@ -95,13 +95,13 @@
         {
             coldstore.Close();
         }
-        public void OpenRefrigeratory()
+        public void OpenFreezer()
         {
-            refrigeratory.Open();
+            freezer.Open();
         }
-        public void CloseRefrigeratory()
+        public void CloseFreezer()
         {
-            refrigeratory.Close();
+            freezer.Close();
         }
     }
 }

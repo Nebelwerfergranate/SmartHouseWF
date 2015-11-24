@@ -68,7 +68,7 @@ namespace SmartHouseWF.Models.DeviceManager
 
         public string AddFridge(string name)
         {
-            Fridge fridge = new Fridge(name, new Coldstore(100, new Lamp(15)), new Refrigeratory(50));
+            Fridge fridge = new Fridge(name, new Coldstore(100, new Lamp(15)), new Freezer(50));
             AddDevice(fridge);
             string message = "Fridge " + name + "  has been successfully added.";
             return message;

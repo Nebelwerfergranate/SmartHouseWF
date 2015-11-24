@@ -129,9 +129,9 @@ namespace SmartHouse
             Fridge fridge = device as Fridge;
             if (fridge != null)
             {
-                info += "Объём морозильной камеры: " + fridge.RefrigeratoryVolume + " л\n"; 
+                info += "Объём морозильной камеры: " + fridge.FreezeryVolume + " л\n"; 
                 info += "Дверца морозильной камеры: ";
-                if (fridge.RefrigeratoryIsOpen)
+                if (fridge.FreezerIsOpen)
                 {
                     info += "Открыта\n";
                 }
@@ -139,7 +139,7 @@ namespace SmartHouse
                 {
                     info += "Закрыта\n";
                 }
-                info += "Температура в морозильной камере: " + fridge.RefrigeratoryTemperature + " градусов\n";
+                info += "Температура в морозильной камере: " + fridge.FreezerTemperature + " градусов\n";
 
                 info += "Дверца холодильника: ";
                 if (fridge.ColdstoreIsOpen)

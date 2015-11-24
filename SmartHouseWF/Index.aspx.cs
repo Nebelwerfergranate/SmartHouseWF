@@ -181,18 +181,18 @@ namespace SmartHouseWF
                     ((Fridge)device).ColdstoreTemperature = temperature;
                 }
 
-                // Refrigeratory
-                else if (e.CommandName == "OpenRefrigeratory")
+                // Freezer
+                else if (e.CommandName == "OpenFreezer")
                 {
-                    ((Fridge)device).OpenRefrigeratory();
+                    ((Fridge)device).OpenFreezer();
                 }
-                else if (e.CommandName == "CloseRefrigeratory")
+                else if (e.CommandName == "CloseFreezer")
                 {
-                    ((Fridge)device).CloseRefrigeratory();
+                    ((Fridge)device).CloseFreezer();
                 }
-                else if (e.CommandName == "RefrigeratorySetTemperature")
+                else if (e.CommandName == "FreezerSetTemperature")
                 {
-                    string userInput = ((TextBox)e.Item.FindControl("RefrigeratoryTemperatureTextBox")).Text;
+                    string userInput = ((TextBox)e.Item.FindControl("FreezerTemperatureTextBox")).Text;
 
                     int temperature = 0;
                     if (!validator.GetTemperature(userInput, out temperature))
@@ -200,7 +200,7 @@ namespace SmartHouseWF
                         return;
                     }
 
-                    ((Fridge)device).RefrigeratoryTemperature = temperature;
+                    ((Fridge)device).FreezerTemperature = temperature;
                 }
             }
         }
@@ -388,29 +388,29 @@ namespace SmartHouseWF
                 ((Label)e.Item.FindControl("ColdstoreVolumeLabel")).Text =
                     "Coldstore volume: " + ((Fridge)device).ColdstoreVolume + " l";
 
-                // Refrigeratory
+                // Freezer
                 //+ RefrigeratoryIsOpenLabel
                 //+ RefrigeratoryTemperatureTextBox
                 //+ RefrigeratoryMinTemperature
                 //+ RefrigeratoryMaxTemperature
                 //+ RefrigeratoryVolumeLabel
-                Label refrigeratoryIsOpenLabel = (Label)e.Item.FindControl("RefrigeratoryIsOpenLabel");
-                if (((Fridge)device).RefrigeratoryIsOpen)
+                Label refrigeratoryIsOpenLabel = (Label)e.Item.FindControl("FreezerIsOpenLabel");
+                if (((Fridge)device).FreezerIsOpen)
                 {
-                    refrigeratoryIsOpenLabel.Text = "Refrigeratory is open";
+                    refrigeratoryIsOpenLabel.Text = "Freezer is open";
                 }
                 else
                 {
-                    refrigeratoryIsOpenLabel.Text = "Refrigeratory is closed";
+                    refrigeratoryIsOpenLabel.Text = "Freezer is closed";
                 }
 
-                TextBox refrigeratoryTemperatureTextBox = (TextBox)e.Item.FindControl("RefrigeratoryTemperatureTextBox");
-                refrigeratoryTemperatureTextBox.Text = ((Fridge)device).RefrigeratoryTemperature.ToString();
-                ((HiddenField)e.Item.FindControl("RefrigeratoryMinTemperature")).Value = ((Fridge)device).RefrigeratoryMinTemperature.ToString();
-                ((HiddenField)e.Item.FindControl("RefrigeratoryMaxTemperature")).Value = ((Fridge)device).RefrigeratoryMaxTemperature.ToString();
+                TextBox refrigeratoryTemperatureTextBox = (TextBox)e.Item.FindControl("FreezerTemperatureTextBox");
+                refrigeratoryTemperatureTextBox.Text = ((Fridge)device).FreezerTemperature.ToString();
+                ((HiddenField)e.Item.FindControl("FreezerMinTemperature")).Value = ((Fridge)device).FreezerMinTemperature.ToString();
+                ((HiddenField)e.Item.FindControl("FreezerMaxTemperature")).Value = ((Fridge)device).FreezerMaxTemperature.ToString();
 
-                ((Label)e.Item.FindControl("RefrigeratoryVolumeLabel")).Text =
-                    "Refrigeratory volume: " + ((Fridge)device).RefrigeratoryVolume + " l";
+                ((Label)e.Item.FindControl("FreezerVolumeLabel")).Text =
+                    "Freezer volume: " + ((Fridge)device).FreezeryVolume + " l";
             }
 
             // Specific

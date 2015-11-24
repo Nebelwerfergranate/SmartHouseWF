@@ -93,7 +93,7 @@
     <Compile Include="Models\SmartHouse\Devices\Lamp.cs" />
     <Compile Include="Models\SmartHouse\Devices\Microwave.cs" />
     <Compile Include="Models\SmartHouse\Devices\Oven.cs" />
-    <Compile Include="Models\SmartHouse\Devices\Refrigeratory.cs" />
+    <Compile Include="Models\SmartHouse\Devices\Freezer.cs" />
     <Compile Include="Models\SmartHouse\Interfaces\IBacklight.cs" />
     <Compile Include="Models\SmartHouse\Interfaces\IClock.cs" />
     <Compile Include="Models\SmartHouse\Interfaces\IOpenable.cs" />
