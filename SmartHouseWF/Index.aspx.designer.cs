@@ -13,85 +13,85 @@ namespace SmartHouseWF {
     public partial class WebForm1 {
         
         /// <summary>
-        /// form1 control.
+        /// form control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form;
         
         /// <summary>
-        /// Panel1 control.
+        /// DeviceName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText DeviceName;
         
         /// <summary>
-        /// ClockRadio control.
+        /// AddclockButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton ClockRadio;
+        protected global::System.Web.UI.WebControls.Button AddclockButton;
         
         /// <summary>
-        /// Oven control.
+        /// AddMicrowaveList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Oven;
+        protected global::System.Web.UI.WebControls.DropDownList AddMicrowaveList;
         
         /// <summary>
-        /// Microwave control.
+        /// AddMicrowaveButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Microwave;
+        protected global::System.Web.UI.WebControls.Button AddMicrowaveButton;
         
         /// <summary>
-        /// Fridge control.
+        /// AddOvenList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Fridge;
+        protected global::System.Web.UI.WebControls.DropDownList AddOvenList;
         
         /// <summary>
-        /// SomethingElseRadio control.
+        /// AddOvenButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton SomethingElseRadio;
+        protected global::System.Web.UI.WebControls.Button AddOvenButton;
         
         /// <summary>
-        /// AddButton control.
+        /// AddFridgeList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AddButton;
+        protected global::System.Web.UI.WebControls.DropDownList AddFridgeList;
         
         /// <summary>
-        /// Messanger control.
+        /// AddFridgeButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Messanger;
+        protected global::System.Web.UI.WebControls.Button AddFridgeButton;
         
         /// <summary>
         /// Repeater1 control.

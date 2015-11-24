@@ -17,20 +17,28 @@
     <script src="scripts/script.js"></script>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form" runat="server">
         <div>
-            <asp:Panel ID="Panel1" runat="server">
-                <input type="text" name="newDeviceName" value="" />
-                <asp:RadioButton runat="server" ID="ClockRadio" GroupName="DeviceType" Text="Часы" Checked="True" />
-                <asp:RadioButton runat="server" ID="Oven" GroupName="DeviceType" Text="Духовка" />
-                <asp:RadioButton runat="server" ID="Microwave" GroupName="DeviceType" Text="Микроволновка" />
-                <asp:RadioButton runat="server" ID="Fridge" GroupName="DeviceType" Text="Чудовище" />
-                <asp:RadioButton runat="server" ID="SomethingElseRadio" GroupName="DeviceType" Text="Что-то еще" />
-
-                <asp:Button ID="AddButton" runat="server" OnClick="AddButton_Click" Text="Добавить устройство" />
-                <asp:Label ID="Messanger" runat="server" Text="всё ок"></asp:Label>
-            </asp:Panel>
-
+            <div hidden="hidden">
+                <input runat="server" id="DeviceName" type="text" class="js_DeviceName" />
+            </div>
+            <div class="add-device-panel">
+                <div>
+                    <asp:Button runat="server" ID="AddclockButton" Text="Add new clock" OnClick="AddclockButton_OnClick" CssClass="js_AddButton" />
+                </div>
+                <div>
+                    <asp:DropDownList runat="server" ID="AddMicrowaveList" />
+                    <asp:Button runat="server" ID="AddMicrowaveButton" Text="Add microwave" OnClick="AddMicrowaveButton_OnClick" CssClass="js_AddButton" />
+                </div>
+                <div>
+                    <asp:DropDownList runat="server" ID="AddOvenList" />
+                    <asp:Button runat="server" ID="AddOvenButton" Text="Add oven" OnClick="AddOvenButton_OnClick" CssClass="js_AddButton" />
+                </div>
+                <div>
+                    <asp:DropDownList runat="server" ID="AddFridgeList" />
+                    <asp:Button runat="server" ID="AddFridgeButton" Text="Add Fridge" OnClick="AddFridgeButton_OnClick" CssClass="js_AddButton" />
+                </div>
+            </div>
 
             <asp:Repeater ID="Repeater1" OnItemCommand="OnItemCommand" OnItemDataBound="OnItemDataBound" runat="server">
                 <ItemTemplate>
@@ -38,6 +46,7 @@
                         <!-- Device -->
                         <asp:Button runat="server" CommandName="Remove" Text="Remove"></asp:Button>
                         <asp:Button runat="server" CommandName="Toggle" Text="Toggle"></asp:Button>
+                        <asp:Button runat="server" CommandName="Rename" Text="Rename" CssClass="js_RenameButton"/>
                         <asp:Label runat="server" ID="Name"></asp:Label>
                         <asp:Label runat="server" ID="State"></asp:Label>
                         <asp:HiddenField runat="server" ID="DeviceID" />
@@ -64,10 +73,10 @@
                         <asp:Panel runat="server" ID="ITemperaturePanel" Visible="False" CssClass="js_ITemperatureDiv">
                             <asp:TextBox runat="server" ID="TemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
                             <asp:Button runat="server" ID="SetTemperatureButton" CommandName="SetTemperature" Text="Set temperature" CssClass="js_TemperatureSetSubmit" />
-                            <span visible="false" class="js_MinTemperatureSpan">
+                            <span hidden="hidden" class="js_MinTemperatureSpan">
                                 <asp:HiddenField runat="server" ID="MinTemperature" />
                             </span>
-                            <span visible="false" class="js_MaxTemperatureSpan">
+                            <span hidden="hidden" class="js_MaxTemperatureSpan">
                                 <asp:HiddenField runat="server" ID="MaxTemperature" />
                             </span>
                         </asp:Panel>
@@ -100,10 +109,10 @@
                                 <div class="js_ITemperatureDiv">
                                     <asp:TextBox runat="server" ID="ColdstoreTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
                                     <asp:Button runat="server" ID="ColdstoreSetTemperatureButton" CommandName="ColdstoreSetTemperature" Text="Set coldstore temperature" CssClass="js_TemperatureSetSubmit" />
-                                    <span visible="false" class="js_MinTemperatureSpan">
+                                    <span hidden="hidden" class="js_MinTemperatureSpan">
                                         <asp:HiddenField runat="server" ID="ColdstoreMinTemperature" />
                                     </span>
-                                    <span visible="false" class="js_MaxTemperatureSpan">
+                                    <span hidden="hidden" class="js_MaxTemperatureSpan">
                                         <asp:HiddenField runat="server" ID="ColdstoreMaxTemperature" />
                                     </span>
                                 </div>
@@ -120,10 +129,10 @@
                                 <div class="js_ITemperatureDiv">
                                     <asp:TextBox runat="server" ID="FreezerTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
                                     <asp:Button runat="server" ID="FreezerSetTemperatureButton" CommandName="FreezerSetTemperature" Text="Set Freezer temperature" CssClass="js_TemperatureSetSubmit" />
-                                    <span visible="false" class="js_MinTemperatureSpan">
+                                    <span hidden="hidden" class="js_MinTemperatureSpan">
                                         <asp:HiddenField runat="server" ID="FreezerMinTemperature" />
                                     </span>
-                                    <span visible="false" class="js_MaxTemperatureSpan">
+                                    <span hidden="hidden" class="js_MaxTemperatureSpan">
                                         <asp:HiddenField runat="server" ID="FreezerMaxTemperature" />
                                     </span>
                                 </div>

@@ -1,12 +1,24 @@
 ﻿body {
 }
+
 .device {
     max-width: 200px;
     max-height: 200px;
     float: left;
 }
-.device input[type="submit"] {
-    height: 30px;
-    width: 75px;
-    margin: 10px
+
+    .device input[type="submit"] {
+        height: 30px;
+        width: 75px;
+        margin: 10px;
+    }
+    .add-device-panel {
+        width: 800px;
+        height: 200px;
+    }
+
+.add-device-panel div {
+    width: 200px;
+    height: 200px;
+    float: left;
 }

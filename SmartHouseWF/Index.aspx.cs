@@ -26,6 +26,12 @@ namespace SmartHouseWF
             {
                 deviceManager = new SessionDeviceManager(false);
             }
+            AddMicrowaveList.DataSource = deviceManager.GetMicrowaveNames();
+            AddMicrowaveList.DataBind();
+            AddOvenList.DataSource = deviceManager.GetOvenNames();
+            AddOvenList.DataBind();
+            AddFridgeList.DataSource = deviceManager.GetFridgeNames();
+            AddFridgeList.DataBind();
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -58,6 +64,11 @@ namespace SmartHouseWF
                 {
                     device.TurnOn();
                 }
+            }
+            else if (e.CommandName == "Rename")
+            {
+                string newName = Request.Form["DeviceName"];
+                deviceManager.RenameById(id, newName);
             }
 
             // IClock
@@ -421,34 +432,31 @@ namespace SmartHouseWF
             }
         }
 
-        protected void AddButton_Click(object sender, EventArgs e)
+        protected void AddclockButton_OnClick(object sender, EventArgs e)
         {
-            string name = Request.Form["newDeviceName"];
-            if (name == "")
-            {
-                Messanger.Text = "Имя не должно быть пустым!";
-                return;
-            }
-            if (ClockRadio.Checked)
-            {
-                Messanger.Text = deviceManager.AddClock(name);
-            }
-            else if (Oven.Checked)
-            {
-                Messanger.Text = deviceManager.AddOven(name);
-            }
-            else if (Microwave.Checked)
-            {
-                Messanger.Text = deviceManager.AddMicrowave(name);
-            }
-            else if (Fridge.Checked)
-            {
-                Messanger.Text = deviceManager.AddFridge(name);
-            }
-            else if (SomethingElseRadio.Checked)
-            {
-                Messanger.Text = "Что-то куда-то было добавлено...";
-            }
+            string name = Request.Form["NewDeviceName"];
+            deviceManager.AddClock(name);
+        }
+
+        protected void AddMicrowaveButton_OnClick(object sender, EventArgs e)
+        {
+            string name = Request.Form["DeviceName"];
+            string fabricator = Request.Form["AddMicrowaveList"];
+            deviceManager.AddMicrowave(name, fabricator);
+        }
+
+        protected void AddOvenButton_OnClick(object sender, EventArgs e)
+        {
+            string name = Request.Form["DeviceName"];
+            string fabricator = Request.Form["AddOvenList"];
+            deviceManager.AddOven(name, fabricator);
+        }
+
+        protected void AddFridgeButton_OnClick(object sender, EventArgs e)
+        {
+            string name = Request.Form["DeviceName"];
+            string fabricator = Request.Form["AddFridgeList"];
+            deviceManager.AddFridge(name, fabricator);
         }
     }
 }

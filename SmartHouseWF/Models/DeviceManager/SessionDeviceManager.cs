@@ -12,11 +12,17 @@ namespace SmartHouseWF.Models.DeviceManager
         private SortedDictionary<uint, Device> myDevices;
         private readonly HttpContext context = HttpContext.Current;
         private uint newDeviceID;
+        private Dictionary<string, MicrowaveInfo> microwaveInfo = new Dictionary<string, MicrowaveInfo>();
+        private Dictionary<string, OvenInfo> ovenInfo = new Dictionary<string, OvenInfo>();
+        private Dictionary<string, FridgeInfo> fridgeInfo = new Dictionary<string, FridgeInfo>();
 
 
         // Constructors
         public SessionDeviceManager(bool doInit = false)
         {
+            InitMicrowaveInfo();
+            InitOvenInfo();
+            InitFridgeInfo();
             if (doInit)
             {
                 Init();
@@ -29,56 +35,73 @@ namespace SmartHouseWF.Models.DeviceManager
         }
 
         // Methods
-        public SortedDictionary<uint, Device> GetDevices()
-        {
-            return myDevices;
-        }
-
-        public string AddClock(string name)
+        public void AddClock(string name)
         {
             Clock clock = new Clock(name);
             AddDevice(clock);
-            string message = "Clock " + name + " has been successfully added.";
-            return message;
         }
 
-        public string AddOven(string name)
+        public void AddMicrowave(string name, string fabricator)
         {
-            Oven oven = new Oven(name, 47, new Lamp(25));
-            oven.OperationDone += (sender) =>
+            if (!microwaveInfo.ContainsKey(fabricator))
             {
-                //throw new ApplicationException("Печка отработала!!!");
-            };
-            AddDevice(oven);
-            string message = "Oven " + name + "  has been successfully added.";
-            return message;
-        }
-
-        public string AddMicrowave(string name)
-        {
-            Microwave microwave = new Microwave(name, 25, new Lamp(25));
+                return;
+            }
+            MicrowaveInfo mi = microwaveInfo[fabricator];
+            Microwave microwave = new Microwave(name, mi.Volume, mi.Lamp);
             microwave.OperationDone += (sender) =>
             {
                 //throw new ApplicationException("Микроволновка отработала!!!");
             };
             AddDevice(microwave);
-            string message = "Microwave " + name + "  has been successfully added.";
-            return message;
         }
 
-        public string AddFridge(string name)
+        public void AddOven(string name, string fabricator)
         {
-            Fridge fridge = new Fridge(name, new Coldstore(100, new Lamp(15)), new Freezer(50));
-            AddDevice(fridge);
-            string message = "Fridge " + name + "  has been successfully added.";
-            return message;
+            if (!ovenInfo.ContainsKey(fabricator))
+            {
+                return;
+            }
+            OvenInfo oi = ovenInfo[fabricator];
+            Oven oven = new Oven(name, oi.Volume, oi.Lamp);
+            oven.OperationDone += (sender) =>
+            {
+                //throw new ApplicationException("Печка отработала!!!");
+            };
+            AddDevice(oven);
         }
 
+        public void AddFridge(string name, string fabricator)
+        {
+            if (!fridgeInfo.ContainsKey(fabricator))
+            {
+                return;
+            }
+            FridgeInfo fi = fridgeInfo[fabricator];
+            Fridge fridge = new Fridge(name, fi.Coldstore, fi.Freezer);
+            AddDevice(fridge);
+        }
+        private void AddDevice(Device device)
+        {
+            myDevices.Add(newDeviceID, device);
+            newDeviceID++;
+            context.Session["devices"] = GetDevices();
+            context.Session["newDeviceID"] = newDeviceID;
+        }
         public void RemoveById(uint id)
         {
             if (myDevices.ContainsKey(id))
             {
                 myDevices.Remove(id);
+                context.Session["devices"] = GetDevices();
+            }
+        }
+
+        public void RenameById(uint id, string newName)
+        {
+            if (myDevices.ContainsKey(id))
+            {
+                myDevices[id].Name = newName;
                 context.Session["devices"] = GetDevices();
             }
         }
@@ -93,6 +116,27 @@ namespace SmartHouseWF.Models.DeviceManager
             return deviceFound;
         }
 
+        public SortedDictionary<uint, Device> GetDevices()
+        {
+            return myDevices;
+        }
+
+        public string[] GetMicrowaveNames()
+        {
+            return microwaveInfo.Keys.ToArray();
+        }
+
+        public string[] GetOvenNames()
+        {
+            return ovenInfo.Keys.ToArray();
+        }
+
+        public string[] GetFridgeNames()
+        {
+            return fridgeInfo.Keys.ToArray();
+        }
+
+
         private void Init()
         {
             // Для тестирования начальные девайсы добавлять сюда.
@@ -102,12 +146,26 @@ namespace SmartHouseWF.Models.DeviceManager
             context.Session["devices"] = GetDevices();
             context.Session["newDeviceID"] = newDeviceID;
         }
-        private void AddDevice(Device device)
+
+        private void InitMicrowaveInfo()
         {
-            myDevices.Add(newDeviceID, device);
-            newDeviceID++;
-            context.Session["devices"] = GetDevices();
-            context.Session["newDeviceID"] = newDeviceID;
+            microwaveInfo["Whirpool"] = new MicrowaveInfo(20, new Lamp(25));
+            microwaveInfo["Panasonic"] = new MicrowaveInfo(19, new Lamp(20));
+            microwaveInfo["Lg"] = new MicrowaveInfo(23, new Lamp(25));
+        }
+
+        private void InitOvenInfo()
+        {
+            ovenInfo["Siemense"] = new OvenInfo(67, new Lamp(25));
+            ovenInfo["Electrolux"] = new OvenInfo(74, new Lamp(25));
+            ovenInfo["Pyramida"] = new OvenInfo(56, new Lamp(15));
+        }
+
+        private void InitFridgeInfo()
+        {
+            fridgeInfo["Samsung"] = new FridgeInfo(new Coldstore(254, new Lamp(15)), new Freezer(92));
+            fridgeInfo["Indesit"] = new FridgeInfo(new Coldstore(233, new Lamp(15)), new Freezer(85));
+            fridgeInfo["Atlant"] = new FridgeInfo(new Coldstore(202, new Lamp(15)), new Freezer(70));
         }
     }
 }

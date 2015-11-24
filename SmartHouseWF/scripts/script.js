@@ -1,5 +1,8 @@
 ﻿// Данные Css классы используются для работы скриптов.
 // Их переименование обязательно должно быть синхронизировано с серверным кодом
+//  js_AddButton
+//	js_NewDeviceName
+//  js_RenameButton
 //  js_IClockDiv
 //  js_dynamicClockDiv   
 //  js_HoursSetField
@@ -12,8 +15,17 @@
 //  js_TemperatureSetSubmit
 //  js_TemperatureSetField
 
-
 $(document).ready(function () {
+    // Device
+    $(".js_AddButton, .js_RenameButton").on("click", function (event) {
+        var name = prompt("Enter new device name", "");
+        if (name == null) {
+            event.preventDefault();
+            return;
+        }
+        document.getElementsByClassName("js_DeviceName")[0].value = name;
+    });
+
     // IClock
     $(".js_IClockDiv").each(function (index, value) {
         var clockElement = $(value).find(".js_dynamicClockDiv:first");
@@ -76,12 +88,12 @@ $(document).ready(function () {
                     return;
                 }
             }
-            
+
             var minutesField = $(value).find(".js_MinutesSetField:first");
             var minutes = minutesField[0].value;
             var secondsField = $(value).find(".js_SecondsSetField:first");
             var seconds = secondsField[0].value;
-            
+
 
             if (!validator.containsTwoDigits(minutes)) {
                 inf.informUser("This field must contain digits", minutesField);
@@ -104,14 +116,20 @@ $(document).ready(function () {
             }
         });
     });
+
     // ITemperature
     $(".js_ITemperatureDiv").each(function (index, value) {
         var submitButton = $(value).find(".js_TemperatureSetSubmit:first");
+        var ITemperatureDiv = value;
+        var temperatureField = $(ITemperatureDiv).find(".js_TemperatureSetField:first")[0];
+        var minTemperature = getMinTemperature(ITemperatureDiv);
+        var maxTemperature = getMaxTemperature(ITemperatureDiv);
+        temperatureField.title = "Set value between " +
+                minTemperature + " and " + maxTemperature;
+
         $(submitButton).on("click", function (event) {
-            var ITemperatureDiv = value;
             var inf = new Informer(event);
-            var temperatureField = $(ITemperatureDiv).find(".js_TemperatureSetField:first");
-            var temperature = temperatureField[0].value;
+            var temperature = temperatureField.value;
             if (!validator.temperatureFormatIsValid(temperature)) {
                 inf.informUser("Temperature format is not correct", temperatureField);
                 return;
@@ -119,8 +137,8 @@ $(document).ready(function () {
             temperature = parseInt(temperature);
             if (!validator.temperatureValueIsValid(ITemperatureDiv, temperature)) {
                 inf.informUser("Temperature should be between " +
-                    getMinTemperature(ITemperatureDiv) + " and " +
-                    getMaxTemperature(ITemperatureDiv), temperatureField);
+                    minTemperature + " and " +
+                    maxTemperature, temperatureField);
                 return;
             }
         });
@@ -134,7 +152,7 @@ var validator = {
     containsTwoDigits: function (userInput) {
         return userInput.match(this.timeRegexp);
     },
-    temperatureFormatIsValid: function(userInput) {
+    temperatureFormatIsValid: function (userInput) {
         return userInput.match(this.temperatureRegexp);
     },
     secondsIsValid: function (userInput) {
@@ -180,7 +198,7 @@ var validator = {
 }
 
 // Informer
-var Informer = function(event) {
+var Informer = function (event) {
     this._event = event;
 }
 Informer.prototype.informUser = function (message, field) {
