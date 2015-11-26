@@ -18,14 +18,7 @@ namespace SmartHouseWF
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                deviceManager = new SessionDeviceManager(true);
-            }
-            else
-            {
-                deviceManager = new SessionDeviceManager(false);
-            }
+            deviceManager = new SessionDeviceManager();
             AddMicrowaveList.DataSource = deviceManager.GetMicrowaveNames();
             AddMicrowaveList.DataBind();
             AddOvenList.DataSource = deviceManager.GetOvenNames();
@@ -214,6 +207,8 @@ namespace SmartHouseWF
                     ((Fridge)device).FreezerTemperature = temperature;
                 }
             }
+            // Обновление страницы браузера должно работать корректно...
+            HttpContext.Current.Response.Redirect(HttpContext.Current.Request.RawUrl);
         }
 
         protected void OnItemDataBound(object sender, RepeaterItemEventArgs e)

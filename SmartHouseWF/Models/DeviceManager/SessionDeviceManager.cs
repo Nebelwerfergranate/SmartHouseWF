@@ -18,12 +18,12 @@ namespace SmartHouseWF.Models.DeviceManager
 
 
         // Constructors
-        public SessionDeviceManager(bool doInit = false)
+        public SessionDeviceManager()
         {
             InitMicrowaveInfo();
             InitOvenInfo();
             InitFridgeInfo();
-            if (doInit)
+            if (context.Session["devices"] == null)
             {
                 Init();
             }
@@ -87,6 +87,10 @@ namespace SmartHouseWF.Models.DeviceManager
             newDeviceID++;
             context.Session["devices"] = GetDevices();
             context.Session["newDeviceID"] = newDeviceID;
+            // Обновление страницы браузера должно работать корректно...
+            HttpContext.Current.Response.Redirect(HttpContext.Current.Request.RawUrl);
+            //Repeater1.DataSource = deviceManager.GetDevices();
+            //Repeater1.DataBind();
         }
         public void RemoveById(uint id)
         {
@@ -142,7 +146,7 @@ namespace SmartHouseWF.Models.DeviceManager
             // Для тестирования начальные девайсы добавлять сюда.
             myDevices = new SortedDictionary<uint, Device>();
             newDeviceID = 0;
-            AddClock("myClock");
+            //AddClock("myClock");
             context.Session["devices"] = GetDevices();
             context.Session["newDeviceID"] = newDeviceID;
         }
@@ -156,7 +160,7 @@ namespace SmartHouseWF.Models.DeviceManager
 
         private void InitOvenInfo()
         {
-            ovenInfo["Siemense"] = new OvenInfo(67, new Lamp(25));
+            ovenInfo["Siemens"] = new OvenInfo(67, new Lamp(25));
             ovenInfo["Electrolux"] = new OvenInfo(74, new Lamp(25));
             ovenInfo["Pyramida"] = new OvenInfo(56, new Lamp(15));
         }

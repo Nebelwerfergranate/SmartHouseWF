@@ -53,3 +53,8 @@
     border-top: 2px solid #323232;
     height: 50px;
 }
+.all-devices {
+    width: 850px;
+    height: 2000px;
+    background: gray;
+}
