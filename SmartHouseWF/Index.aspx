@@ -24,19 +24,39 @@
             </div>
             <div class="add-device-panel">
                 <div>
-                    <asp:Button runat="server" ID="AddclockButton" Text="Add new clock" OnClick="AddclockButton_OnClick" CssClass="js_AddButton" />
+                    <div class="image">
+                        <img src="Content/Images/clock.png" />
+                    </div>
+                    <div class="add-device-control">
+                        <asp:Button runat="server" ID="AddclockButton" Text="Add" OnClick="AddclockButton_OnClick" CssClass="js_AddButton, single-add" />
+                    </div>
                 </div>
                 <div>
-                    <asp:DropDownList runat="server" ID="AddMicrowaveList" />
-                    <asp:Button runat="server" ID="AddMicrowaveButton" Text="Add microwave" OnClick="AddMicrowaveButton_OnClick" CssClass="js_AddButton" />
+                    <div class="image">
+                        <img src="Content/Images/microwave.png" />
+                    </div>
+                    <div class="add-device-control">
+                        <asp:DropDownList runat="server" ID="AddMicrowaveList" />
+                        <asp:Button runat="server" ID="AddMicrowaveButton" Text="Add" OnClick="AddMicrowaveButton_OnClick" CssClass="js_AddButton" />
+                    </div>
                 </div>
                 <div>
-                    <asp:DropDownList runat="server" ID="AddOvenList" />
-                    <asp:Button runat="server" ID="AddOvenButton" Text="Add oven" OnClick="AddOvenButton_OnClick" CssClass="js_AddButton" />
+                    <div class="image">
+                        <img src="Content/Images/oven.png" />
+                    </div>
+                    <div class="add-device-control">
+                        <asp:DropDownList runat="server" ID="AddOvenList" />
+                        <asp:Button runat="server" ID="AddOvenButton" Text="Add" OnClick="AddOvenButton_OnClick" CssClass="js_AddButton" />
+                    </div>
                 </div>
                 <div>
-                    <asp:DropDownList runat="server" ID="AddFridgeList" />
-                    <asp:Button runat="server" ID="AddFridgeButton" Text="Add Fridge" OnClick="AddFridgeButton_OnClick" CssClass="js_AddButton" />
+                    <div class="image">
+                        <img src="Content/Images/fridge.png" />
+                    </div>
+                    <div class="add-device-control">
+                        <asp:DropDownList runat="server" ID="AddFridgeList" />
+                        <asp:Button runat="server" ID="AddFridgeButton" Text="Add" OnClick="AddFridgeButton_OnClick" CssClass="js_AddButton" />
+                    </div>
                 </div>
             </div>
 
@@ -46,7 +66,7 @@
                         <!-- Device -->
                         <asp:Button runat="server" CommandName="Remove" Text="Remove"></asp:Button>
                         <asp:Button runat="server" CommandName="Toggle" Text="Toggle"></asp:Button>
-                        <asp:Button runat="server" CommandName="Rename" Text="Rename" CssClass="js_RenameButton"/>
+                        <asp:Button runat="server" CommandName="Rename" Text="Rename" CssClass="js_RenameButton" />
                         <asp:Label runat="server" ID="Name"></asp:Label>
                         <asp:Label runat="server" ID="State"></asp:Label>
                         <asp:HiddenField runat="server" ID="DeviceID" />

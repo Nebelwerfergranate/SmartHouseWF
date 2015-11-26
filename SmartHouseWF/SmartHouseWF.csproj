@@ -66,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css.css" />
+    <Content Include="Content\Images\clock.png" />
+    <Content Include="Content\Images\fridge.png" />
+    <Content Include="Content\Images\microwave.png" />
+    <Content Include="Content\Images\oven.png" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery.jgrowl.css" />
     <Content Include="Content\jquery.myClock.css" />

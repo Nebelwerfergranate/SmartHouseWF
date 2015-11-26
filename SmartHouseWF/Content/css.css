@@ -12,13 +12,44 @@
         width: 75px;
         margin: 10px;
     }
-    .add-device-panel {
-        width: 800px;
+
+.add-device-panel {
+    width: 820px;
+    height: 200px;
+}
+
+    .add-device-panel > div {
+        width: 200px;
         height: 200px;
+        float: left;
+        border: 2px solid #323232;
+        background: darkkhaki none repeat scroll 0% 0%;
     }
 
-.add-device-panel div {
-    width: 200px;
-    height: 200px;
-    float: left;
+    .add-device-panel select {
+        margin-top: 10px;
+        width: 100px;
+        height: 30px;
+        margin-left: 10px;
+    }
+
+    .add-device-panel input[type="submit"] {
+        margin-top: 10px;
+        height: 30px;
+        width: 80px;
+    }
+
+.image {
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 150px;
+    height: 150px;
+}
+
+.single-add {
+    margin-left: 60px;
+}
+.add-device-control {
+    border-top: 2px solid #323232;
+    height: 50px;
 }
