@@ -1,18 +1,64 @@
 ﻿body {
 }
-
-.device {
-    max-width: 200px;
-    max-height: 200px;
-    float: left;
+.all-devices {
+    width: 850px;
+    height: 2000px;
+    background: gray;
 }
 
-    .device input[type="submit"] {
+.device {
+    width: 200px;
+    height: 240px;
+    float: left;
+}
+.device>.device-control {
+    width: 200px;
+    height: 60px;
+}
+
+.device>.device-control>input[type="image"] {
+    margin: 0px 5px; 
+}
+.device>.device-name {
+    width: 200px;
+    height: 22px;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0px;
+    padding: 4px 0px;
+}
+.interfaces {
+      margin-left: 200px;
+      width: 550px;
+}
+.interfaces>div {
+    height: 60px;
+}
+
+.device-container {
+    width: 850px;
+    min-height: 240px;
+    border: 2px solid #323232
+}
+
+    .device-container input[type="submit"] {
         height: 30px;
         width: 75px;
-        margin: 10px;
     }
-
+.fridge {
+    height: 200px !important;
+}
+.fridge>div {
+    height: 100px;
+}
+.js_HoursSetField, .js_MinutesSetField, .js_SecondsSetField {
+    width: 30px;
+}
+.js_TemperatureSetField {
+    width: 60px;   
+}
 .add-device-panel {
     width: 820px;
     height: 200px;
@@ -49,12 +95,8 @@
 .single-add {
     margin-left: 60px;
 }
+
 .add-device-control {
     border-top: 2px solid #323232;
     height: 50px;
-}
-.all-devices {
-    width: 850px;
-    height: 2000px;
-    background: gray;
 }

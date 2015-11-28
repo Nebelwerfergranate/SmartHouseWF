@@ -18,7 +18,7 @@
 $(document).ready(function () {
     // Device
     $(".js_AddButton, .js_RenameButton").on("click", function (event) {
-        var name = prompt("Enter new device name", "");
+        var name = prompt("Enter new device-container name", "");
         if (name == null) {
             event.preventDefault();
             return;

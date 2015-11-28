@@ -91,13 +91,16 @@ namespace SmartHouseWF
             // IOpenable
             if (device is IOpenable)
             {
-                if (e.CommandName == "Open")
+                if (e.CommandName == "OpenClose")
                 {
-                    ((IOpenable)device).Open();
-                }
-                else if (e.CommandName == "Close")
-                {
-                    ((IOpenable)device).Close();
+                    if (((IOpenable) device).IsOpen)
+                    {
+                        ((IOpenable) device).Close();
+                    }
+                    else
+                    {
+                        ((IOpenable)device).Open();
+                    }
                 }
             }
 
@@ -150,13 +153,16 @@ namespace SmartHouseWF
 
                     ((ITimer)device).SetTimer(new TimeSpan(hours, minutes, seconds));
                 }
-                else if (e.CommandName == "StartTimer")
+                else if (e.CommandName == "StartStop")
                 {
-                    ((ITimer)device).Start();
-                }
-                else if (e.CommandName == "StopTimer")
-                {
-                    ((ITimer)device).Stop();
+                    if (((ITimer) device).IsRunning)
+                    {
+                        ((ITimer)device).Stop();
+                    }
+                    else
+                    {
+                        ((ITimer)device).Start();
+                    }
                 }
             }
 
@@ -164,14 +170,18 @@ namespace SmartHouseWF
             if (device is Fridge)
             {
                 // Coldstore
-                if (e.CommandName == "OpenColdstore")
+                if (e.CommandName == "ColdstoreOpenClose")
                 {
-                    ((Fridge)device).OpenColdstore();
+                    if (((Fridge) device).ColdstoreIsOpen)
+                    {
+                        ((Fridge) device).CloseColdstore();
+                    }
+                    else
+                    {
+                        ((Fridge)device).OpenColdstore();
+                    }
                 }
-                else if (e.CommandName == "CloseColdstore")
-                {
-                    ((Fridge)device).CloseColdstore();
-                }
+
                 else if (e.CommandName == "ColdstoreSetTemperature")
                 {
                     string userInput = ((TextBox)e.Item.FindControl("ColdstoreTemperatureTextBox")).Text;
@@ -186,13 +196,16 @@ namespace SmartHouseWF
                 }
 
                 // Freezer
-                else if (e.CommandName == "OpenFreezer")
+                else if (e.CommandName == "FreezerOpenClose")
                 {
-                    ((Fridge)device).OpenFreezer();
-                }
-                else if (e.CommandName == "CloseFreezer")
-                {
-                    ((Fridge)device).CloseFreezer();
+                    if (((Fridge) device).FreezerIsOpen)
+                    {
+                        ((Fridge) device).CloseFreezer();
+                    }
+                    else
+                    {
+                        ((Fridge) device).OpenFreezer();
+                    }
                 }
                 else if (e.CommandName == "FreezerSetTemperature")
                 {
@@ -226,16 +239,16 @@ namespace SmartHouseWF
 
             ((HiddenField)e.Item.FindControl("DeviceID")).Value = id.ToString();
 
-            ((Label)e.Item.FindControl("Name")).Text = device.Name;
+            ((Label)e.Item.FindControl("Name")).Text = "Name: " + device.Name;
 
-            Label stateLabel = (Label)e.Item.FindControl("State");
+            ImageButton stateButton = (ImageButton)e.Item.FindControl("State");
             if (device.IsOn)
             {
-                stateLabel.Text = "Включен";
+                stateButton.ImageUrl = "Content/Images/on.png";
             }
             else
             {
-                stateLabel.Text = "Выключен";
+                stateButton.ImageUrl = "Content/Images/off.png";
             }
 
             // IBacklight
@@ -244,14 +257,14 @@ namespace SmartHouseWF
                 Panel IBacklightPanel = (Panel)e.Item.FindControl("IBacklightPanel");
                 IBacklightPanel.Visible = true;
 
-                Label IsHighlightedLabel = (Label)e.Item.FindControl("IsHighlightedLabel");
+                Image IsHighlightedImage = (Image)e.Item.FindControl("IsHighlightedImage");
                 if (((IBacklight)device).IsHighlighted)
                 {
-                    IsHighlightedLabel.Text = "Backlight is on";
+                    IsHighlightedImage.ImageUrl = "/Content/Images/backlightOn.png";
                 }
                 else
                 {
-                    IsHighlightedLabel.Text = "Backlight is off";
+                    IsHighlightedImage.ImageUrl = "/Content/Images/backlightOff.png";
                 }
             }
 
@@ -294,14 +307,14 @@ namespace SmartHouseWF
                 Panel IOpenablePanel = (Panel)e.Item.FindControl("IOpenablePanel");
                 IOpenablePanel.Visible = true;
 
-                Label IsOpenLabel = (Label)e.Item.FindControl("IsOpenLabel");
+                ImageButton IOpenableButton = (ImageButton)e.Item.FindControl("OpenCloseButton");
                 if (((IOpenable)device).IsOpen)
                 {
-                    IsOpenLabel.Text = "Device is open";
+                    IOpenableButton.ImageUrl = "Content/Images/opened.png";
                 }
                 else
                 {
-                    IsOpenLabel.Text = "Device is closed";
+                    IOpenableButton.ImageUrl = "Content/Images/closed.png";
                 }
             }
 
@@ -321,14 +334,14 @@ namespace SmartHouseWF
                 Panel ITimerPanel = (Panel)e.Item.FindControl("ITimerPanel");
                 ITimerPanel.Visible = true;
 
-                Label TimerIsRunningLabel = (Label)e.Item.FindControl("TimerIsRunning");
+                ImageButton startStopButton = (ImageButton)e.Item.FindControl("StartStopButton");
                 if (((ITimer)device).IsRunning)
                 {
-                    TimerIsRunningLabel.Text = "Device is running";
+                    startStopButton.ImageUrl = "Content/Images/stop.png";
                 }
                 else
                 {
-                    TimerIsRunningLabel.Text = "Device not running";
+                    startStopButton.ImageUrl = "Content/Images/start.png";
                 }
 
                 if (device.IsOn)
@@ -360,20 +373,14 @@ namespace SmartHouseWF
                 ((Panel)e.Item.FindControl("FridgePanel")).Visible = true;
 
                 // Coldstore
-                //+ ColdstoreIsOpenLabel
-                //+ ColdstoreTemperatureTextBox
-                //+ ColdstoreMinTemperature
-                //+ ColdstoreMaxTemperature
-                //+ ColdstoreIsHighlightedLabel
-                //+ ColdstoreVolumeLabel
-                Label coldstoreIsOpenLabel = (Label)e.Item.FindControl("ColdstoreIsOpenLabel");
+                ImageButton coldstoreOpenCloseButton = (ImageButton)e.Item.FindControl("ColdstoreOpenCloseButton");
                 if (((Fridge)device).ColdstoreIsOpen)
                 {
-                    coldstoreIsOpenLabel.Text = "Coldstore is open";
+                    coldstoreOpenCloseButton.ImageUrl = "Content/Images/opened.png";
                 }
                 else
                 {
-                    coldstoreIsOpenLabel.Text = "Coldstore is closed";
+                    coldstoreOpenCloseButton.ImageUrl = "Content/Images/closed.png";
                 }
 
                 TextBox coldstoreTemperatureTextBox = (TextBox)e.Item.FindControl("ColdstoreTemperatureTextBox");
@@ -381,33 +388,28 @@ namespace SmartHouseWF
                 ((HiddenField)e.Item.FindControl("ColdstoreMinTemperature")).Value = ((Fridge)device).ColdstoreMinTemperature.ToString();
                 ((HiddenField)e.Item.FindControl("ColdstoreMaxTemperature")).Value = ((Fridge)device).ColdstoreMaxTemperature.ToString();
 
-                Label coldstoreIsHighlightedLabel = (Label)e.Item.FindControl("ColdstoreIsHighlightedLabel");
+                Image coldstoreIsHighlighted = (Image)e.Item.FindControl("ColdstoreIsHighlighted");
                 if (((Fridge)device).ColdstoreIsHighlighted)
                 {
-                    coldstoreIsHighlightedLabel.Text = "Coldstore backlight is on";
+                    coldstoreIsHighlighted.ImageUrl = "/Content/Images/backlightOn.png";
                 }
                 else
                 {
-                    coldstoreIsHighlightedLabel.Text = "Coldstore backlight is off";
+                    coldstoreIsHighlighted.ImageUrl = "/Content/Images/backlightOff.png";
                 }
 
                 ((Label)e.Item.FindControl("ColdstoreVolumeLabel")).Text =
                     "Coldstore volume: " + ((Fridge)device).ColdstoreVolume + " l";
 
                 // Freezer
-                //+ RefrigeratoryIsOpenLabel
-                //+ RefrigeratoryTemperatureTextBox
-                //+ RefrigeratoryMinTemperature
-                //+ RefrigeratoryMaxTemperature
-                //+ RefrigeratoryVolumeLabel
-                Label refrigeratoryIsOpenLabel = (Label)e.Item.FindControl("FreezerIsOpenLabel");
+                ImageButton freezerOpenCloseButton = (ImageButton)e.Item.FindControl("FreezerOpenCloseButton");
                 if (((Fridge)device).FreezerIsOpen)
                 {
-                    refrigeratoryIsOpenLabel.Text = "Freezer is open";
+                    freezerOpenCloseButton.ImageUrl = "Content/Images/opened.png";
                 }
                 else
                 {
-                    refrigeratoryIsOpenLabel.Text = "Freezer is closed";
+                    freezerOpenCloseButton.ImageUrl = "Content/Images/closed.png";
                 }
 
                 TextBox refrigeratoryTemperatureTextBox = (TextBox)e.Item.FindControl("FreezerTemperatureTextBox");
@@ -420,16 +422,29 @@ namespace SmartHouseWF
             }
 
             // Specific
+            if (device is Clock)
+            {
+                ((Image)e.Item.FindControl("DeviceImage")).ImageUrl = "Content/Images/clock.png";
+            }
             if (device is Microwave)
             {
+                ((Image) e.Item.FindControl("DeviceImage")).ImageUrl = "Content/Images/microwave.png";
                 ((TextBox)e.Item.FindControl("TimerHours")).Visible = false;
                 ((HtmlGenericControl)e.Item.FindControl("TimerHoursSeparator")).Visible = false;
+            }
+            if (device is Oven)
+            {
+                ((Image)e.Item.FindControl("DeviceImage")).ImageUrl = "Content/Images/oven.png";
+            }
+            if (device is Fridge)
+            {
+                ((Image)e.Item.FindControl("DeviceImage")).ImageUrl = "Content/Images/fridge.png";
             }
         }
 
         protected void AddclockButton_OnClick(object sender, EventArgs e)
         {
-            string name = Request.Form["NewDeviceName"];
+            string name = Request.Form["DeviceName"];
             deviceManager.AddClock(name);
         }
 
