@@ -153,7 +153,7 @@ namespace SmartHouseWF.Models.DeviceManager
 
         private void InitMicrowaveInfo()
         {
-            microwaveInfo["Whirpool"] = new MicrowaveInfo(20, new Lamp(25));
+            microwaveInfo["Whirlpool"] = new MicrowaveInfo(20, new Lamp(25));
             microwaveInfo["Panasonic"] = new MicrowaveInfo(19, new Lamp(20));
             microwaveInfo["Lg"] = new MicrowaveInfo(23, new Lamp(25));
         }

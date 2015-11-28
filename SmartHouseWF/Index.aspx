@@ -67,13 +67,12 @@
                                 <!-- Device -->
                                 <div class="device-control">
                                     <asp:ImageButton ID="State" runat="server" CommandName="Toggle" Text="Toggle"></asp:ImageButton>
-                                    <asp:ImageButton runat="server" CommandName="Rename" Text="Rename" CssClass="js_RenameButton"
-                                        ImageUrl="Content/Images/rename.png" />
                                     <asp:ImageButton runat="server" CommandName="Remove" Text="Remove" ImageUrl="Content/Images/remove.png"></asp:ImageButton>
                                     <asp:HiddenField runat="server" ID="DeviceID" />
                                 </div>
                                 <div class="device-name">
-                                    <asp:Label runat="server" ID="Name"></asp:Label>
+                                    <asp:Button runat="server" CommandName="Rename" Text="Rename" CssClass="js_RenameButton" />
+                                    <asp:Label runat="server" ID="Name" CssClass="device-name-label"></asp:Label>
                                 </div>
                                 <div class="image">
                                     <asp:Image runat="server" ID="DeviceImage" />
@@ -81,10 +80,18 @@
                                 </div>
                             </div>
                             <div class="interfaces">
-                                <!-- IBacklight -->
-                                <asp:Panel runat="server" ID="IBacklightPanel" Visible="False">
-                                    <asp:Image runat="server" ID="IsHighlightedImage" />
-                                </asp:Panel>
+                                <div class="interfaces-small">
+                                    <div runat="server" id="SmallInterfacesTop" visible="False">
+                                        <!-- IBacklight -->
+                                        <asp:Image runat="server" ID="IsHighlightedImage" Visible="False" />
+                                        <!-- IOpenable -->
+                                        <asp:ImageButton runat="server" ID="OpenCloseButton" CommandName="OpenClose" Visible="False" />
+                                    </div>
+                                    <!-- IVolume -->
+                                    <div runat="server" id="SmallInterfacesBottom" visible="False">
+                                        <asp:Label runat="server" ID="VolumeLabel" Visible="False"></asp:Label>
+                                    </div>
+                                </div>
                                 <!-- IClock -->
                                 <asp:Panel runat="server" ID="CurrentTime" Visible="False" CssClass="js_IClockDiv">
                                     <asp:HiddenField runat="server" ID="HiddenTimestamp" />
@@ -93,10 +100,6 @@
                                     <asp:Label runat="server" ID="ClockTimeSeparator" Visible="False">:</asp:Label>
                                     <asp:TextBox runat="server" ID="Minutes" MaxLength="2" Visible="False" CssClass="js_MinutesSetField"></asp:TextBox>
                                     <asp:Button runat="server" ID="SetTimeButton" Text="Set Time" CommandName="SetTime" Visible="False" CssClass="js_TimeSetSubmit" />
-                                </asp:Panel>
-                                <!-- IOpenable -->
-                                <asp:Panel runat="server" ID="IOpenablePanel" Visible="False">
-                                    <asp:ImageButton runat="server" ID="OpenCloseButton" CommandName="OpenClose" />
                                 </asp:Panel>
                                 <!-- ITemperature -->
                                 <asp:Panel runat="server" ID="ITemperaturePanel" Visible="False" CssClass="js_ITemperatureDiv">
@@ -111,31 +114,33 @@
                                 </asp:Panel>
                                 <!-- ITimer -->
                                 <asp:Panel runat="server" ID="ITimerPanel" Visible="False" CssClass="js_ITimerDiv">
-                                    <asp:Label runat="server" ID="TimerIsRunning"></asp:Label>
                                     <asp:Panel runat="server" ID="ITimerDynamicPanel" Visible="False">
-                                        <asp:ImageButton runat="server" ID="StartStopButton" CommandName="StartStop" />
                                         <asp:TextBox runat="server" ID="TimerHours" MaxLength="2" CssClass="js_HoursSetField"></asp:TextBox>
                                         <span runat="server" id="TimerHoursSeparator">:</span>
                                         <asp:TextBox runat="server" ID="TimerMinutes" MaxLength="2" CssClass="js_MinutesSetField"></asp:TextBox>
                                         <span>:</span>
                                         <asp:TextBox runat="server" ID="TimerSeconds" MaxLength="2" CssClass="js_SecondsSetField"></asp:TextBox>
                                         <asp:Button runat="server" ID="SetTimerButton" Text="Set Timer" CommandName="SetTimer" CssClass="js_TimeSetSubmit" />
+                                        <asp:ImageButton runat="server" ID="StartStopButton" CommandName="StartStop" />
                                     </asp:Panel>
                                 </asp:Panel>
-                                <!-- IVolume -->
-                                <asp:Panel runat="server" ID="IVolumePanel" Visible="False">
-                                    <asp:Label runat="server" ID="VolumeLabel"></asp:Label>
-                                </asp:Panel>
+
                                 <!-- Fridge -->
                                 <asp:Panel runat="server" ID="FridgePanel" Visible="False" CssClass="fridge">
                                     <!-- Coldstore -->
-                                    <div>
-                                        <asp:ImageButton runat="server" ID="ColdstoreOpenCloseButton" CommandName="ColdstoreOpenClose" />
-                                        <asp:Image runat="server" ID="ColdstoreIsHighlighted"/>
-                                        <asp:Label runat="server" ID="ColdstoreVolumeLabel"></asp:Label>
+                                    <div class="interfaces">
+                                        <div class="interfaces-small">
+                                            <div>
+                                                <asp:Image runat="server" ID="ColdstoreIsHighlighted" />
+                                                <asp:ImageButton runat="server" ID="ColdstoreOpenCloseButton" CommandName="ColdstoreOpenClose" />
+                                            </div>
+                                            <div>
+                                                <asp:Label runat="server" ID="ColdstoreVolumeLabel"></asp:Label>
+                                            </div>
+                                        </div>
                                         <div class="js_ITemperatureDiv">
                                             <asp:TextBox runat="server" ID="ColdstoreTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
-                                            <asp:Button runat="server" ID="ColdstoreSetTemperatureButton" CommandName="ColdstoreSetTemperature" Text="Set coldstore temperature" CssClass="js_TemperatureSetSubmit" />
+                                            <asp:Button runat="server" ID="ColdstoreSetTemperatureButton" CommandName="ColdstoreSetTemperature" Text="Set temperature" CssClass="js_TemperatureSetSubmit" />
                                             <span hidden="hidden" class="js_MinTemperatureSpan">
                                                 <asp:HiddenField runat="server" ID="ColdstoreMinTemperature" />
                                             </span>
@@ -144,13 +149,20 @@
                                             </span>
                                         </div>
                                     </div>
+
                                     <!-- Freezer -->
-                                    <div>
-                                        <asp:ImageButton runat="server" ID="FreezerOpenCloseButton" CommandName="FreezerOpenClose" />
-                                        <asp:Label runat="server" ID="FreezerVolumeLabel"></asp:Label>
+                                    <div class="interfaces">
+                                        <div class="interfaces-small">
+                                            <div>
+                                                <asp:ImageButton runat="server" ID="FreezerOpenCloseButton" CommandName="FreezerOpenClose" />
+                                            </div>
+                                            <div>
+                                                <asp:Label runat="server" ID="FreezerVolumeLabel"></asp:Label>
+                                            </div>
+                                        </div>
                                         <div class="js_ITemperatureDiv">
                                             <asp:TextBox runat="server" ID="FreezerTemperatureTextBox" CssClass="js_TemperatureSetField" MaxLength="5"></asp:TextBox>
-                                            <asp:Button runat="server" ID="FreezerSetTemperatureButton" CommandName="FreezerSetTemperature" Text="Set Freezer temperature" CssClass="js_TemperatureSetSubmit" />
+                                            <asp:Button runat="server" ID="FreezerSetTemperatureButton" CommandName="FreezerSetTemperature" Text="Set temperature" CssClass="js_TemperatureSetSubmit" />
                                             <span hidden="hidden" class="js_MinTemperatureSpan">
                                                 <asp:HiddenField runat="server" ID="FreezerMinTemperature" />
                                             </span>

@@ -143,6 +143,7 @@ $(document).ready(function () {
             }
         });
     });
+    $.jGrowl.defaults.closerTemplate = '<div>hide all notifications</div>';
 });
 
 // Validator

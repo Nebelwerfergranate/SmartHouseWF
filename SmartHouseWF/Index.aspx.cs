@@ -239,7 +239,7 @@ namespace SmartHouseWF
 
             ((HiddenField)e.Item.FindControl("DeviceID")).Value = id.ToString();
 
-            ((Label)e.Item.FindControl("Name")).Text = "Name: " + device.Name;
+            ((Label)e.Item.FindControl("Name")).Text = device.Name;
 
             ImageButton stateButton = (ImageButton)e.Item.FindControl("State");
             if (device.IsOn)
@@ -254,17 +254,17 @@ namespace SmartHouseWF
             // IBacklight
             if (device is IBacklight)
             {
-                Panel IBacklightPanel = (Panel)e.Item.FindControl("IBacklightPanel");
-                IBacklightPanel.Visible = true;
-
-                Image IsHighlightedImage = (Image)e.Item.FindControl("IsHighlightedImage");
+                Image isHighlightedImage = (Image)e.Item.FindControl("IsHighlightedImage");
+                isHighlightedImage.Visible = true;
+                ((HtmlGenericControl)e.Item.FindControl("SmallInterfacesTop")).Visible = true;
+                
                 if (((IBacklight)device).IsHighlighted)
                 {
-                    IsHighlightedImage.ImageUrl = "/Content/Images/backlightOn.png";
+                    isHighlightedImage.ImageUrl = "/Content/Images/backlightOn.png";
                 }
                 else
                 {
-                    IsHighlightedImage.ImageUrl = "/Content/Images/backlightOff.png";
+                    isHighlightedImage.ImageUrl = "/Content/Images/backlightOff.png";
                 }
             }
 
@@ -304,17 +304,17 @@ namespace SmartHouseWF
             // IOpenable
             if (device is IOpenable)
             {
-                Panel IOpenablePanel = (Panel)e.Item.FindControl("IOpenablePanel");
-                IOpenablePanel.Visible = true;
+                ImageButton iOpenableButton = (ImageButton)e.Item.FindControl("OpenCloseButton");
+                iOpenableButton.Visible = true;
+                ((HtmlGenericControl)e.Item.FindControl("SmallInterfacesTop")).Visible = true;
 
-                ImageButton IOpenableButton = (ImageButton)e.Item.FindControl("OpenCloseButton");
                 if (((IOpenable)device).IsOpen)
                 {
-                    IOpenableButton.ImageUrl = "Content/Images/opened.png";
+                    iOpenableButton.ImageUrl = "Content/Images/opened.png";
                 }
                 else
                 {
-                    IOpenableButton.ImageUrl = "Content/Images/closed.png";
+                    iOpenableButton.ImageUrl = "Content/Images/closed.png";
                 }
             }
 
@@ -362,9 +362,10 @@ namespace SmartHouseWF
             // IVolume
             if (device is IVolume)
             {
-                ((Panel)e.Item.FindControl("IVolumePanel")).Visible = true;
-                ((Label)e.Item.FindControl("VolumeLabel")).Text =
-                    "Volume: " + ((IVolume)device).Volume + " l";
+                ((HtmlGenericControl)e.Item.FindControl("SmallInterfacesBottom")).Visible = true;
+                Label volumeLabel = (Label) e.Item.FindControl("VolumeLabel");
+                volumeLabel.Visible = true;
+                volumeLabel.Text = "Volume: " + ((IVolume)device).Volume + " litres";
             }
 
             // Fridge

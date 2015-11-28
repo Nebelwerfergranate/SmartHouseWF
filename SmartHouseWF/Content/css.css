@@ -1,64 +1,144 @@
 ﻿body {
 }
+
 .all-devices {
-    width: 850px;
+    width: 1250px;
     height: 2000px;
     background: gray;
-}
-
-.device {
-    width: 200px;
-    height: 240px;
-    float: left;
-}
-.device>.device-control {
-    width: 200px;
-    height: 60px;
-}
-
-.device>.device-control>input[type="image"] {
-    margin: 0px 5px; 
-}
-.device>.device-name {
-    width: 200px;
-    height: 22px;
     font-size: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0px;
-    padding: 4px 0px;
-}
-.interfaces {
-      margin-left: 200px;
-      width: 550px;
-}
-.interfaces>div {
-    height: 60px;
 }
 
 .device-container {
-    width: 850px;
-    min-height: 240px;
-    border: 2px solid #323232
+    width: 530px;
+    height: 260px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 2px solid #323232;
+    float: left;
+    margin: 10px;
 }
 
-    .device-container input[type="submit"] {
+    .device-container > .device {
+        width: 200px;
+        height: 260px;
+        float: left;
+        border-right: 1px solid black;
+        /*Аналог border-collapse*/
+        margin-right: -1px;
+    }
+
+.device > .device-control {
+    width: 200px;
+    height: 50px;
+}
+
+    .device > .device-control > input[type="image"]:first-child {
         height: 30px;
+        width: 30px;
+        margin: 10px 22px 0px 45px;
+    }
+
+    .device > .device-control > input[type="image"]:nth-child(2) {
+        height: 30px;
+        width: 30px;
+        margin: 10px 45px 0px 22px;
+    }
+
+.device > .device-name {
+    width: 200px;
+    height: 42px;
+    margin: 0px;
+    padding: 4px 0px;
+    display: table;
+}
+
+    .device > .device-name > .device-name-label {
+        width: 100px;
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        display: table-cell;
+        vertical-align: middle;
+        text-overflow: ellipsis;
+    }
+
+    .device > .device-name > .js_RenameButton {
+        float: left;
+        margin-top: 8px;
+        margin-left: 10px;
         width: 75px;
     }
-.fridge {
-    height: 200px !important;
+
+.device-container > .interfaces {
+    border-left: 1px solid black;
 }
-.fridge>div {
-    height: 100px;
+
+.interfaces {
+    width: 300px;
+    float: left;
+    padding: 5px;
 }
+
+    .interfaces input[type="submit"] {
+        margin: 12px;
+    }
+
+    .interfaces > .interfaces-small {
+        display: table;
+    }
+
+        .interfaces > .interfaces-small input[type="image"] {
+            width: 100px;
+            height: 50px;
+            margin-top: 5px;
+            margin-left: 30px;
+        }
+
+        .interfaces > .interfaces-small img {
+            margin-top: 5px;
+            width: 100px;
+            height: 50px;
+        }
+
+        .interfaces > .interfaces-small div:first-child {
+            float: left;
+            display: table;
+            text-align: center;
+            width: 300px;
+            height: 60px;
+        }
+
+        .interfaces > .interfaces-small div:nth-child(2) {
+            float: left;
+            display: table;
+            text-align: center;
+            width: 300px;
+            height: 40px;
+        }
+
+        .interfaces > .interfaces-small div span {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+    .interfaces > div {
+        text-align: center;
+    }
+
 .js_HoursSetField, .js_MinutesSetField, .js_SecondsSetField {
     width: 30px;
 }
+
 .js_TemperatureSetField {
-    width: 60px;   
+    width: 60px;
 }
+
+.js_ITimerDiv input[type="image"] {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
 .add-device-panel {
     width: 820px;
     height: 200px;
@@ -99,4 +179,10 @@
 .add-device-control {
     border-top: 2px solid #323232;
     height: 50px;
+}
+.jGrowl-message{
+    color: white;
+}
+.jGrowl-notification .jGrowl-close {
+    color: white;
 }
