@@ -16,6 +16,8 @@ namespace SmartHouseWF
         {
             // Code that runs when a new session is started
             Session["Panel"] = new List<int>();
+            // Положение экрана со времени последнего запроса храниться в куках.
+            Response.Cookies["scrollTop"].Value = 0.ToString();
         }
     }
 }

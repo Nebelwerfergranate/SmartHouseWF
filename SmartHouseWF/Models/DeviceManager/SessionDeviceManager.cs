@@ -143,10 +143,8 @@ namespace SmartHouseWF.Models.DeviceManager
 
         private void Init()
         {
-            // Для тестирования начальные девайсы добавлять сюда.
             myDevices = new SortedDictionary<uint, Device>();
             newDeviceID = 0;
-            //AddClock("myClock");
             context.Session["devices"] = GetDevices();
             context.Session["newDeviceID"] = newDeviceID;
         }

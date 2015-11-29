@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="Content/jquery.myClock.css" />
     <link rel="stylesheet" href="Content/css.css" />
     <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/jquery.cookie.js"></script>
+    <script src="scripts/jquery.scrollTo.js"></script>
     <script src="scripts/jquery-ui.min.js"></script>
     <script src="scripts/jquery.color.js"></script>
     <script src="scripts/jquery.jgrowl.js"></script>
@@ -20,7 +22,7 @@
     <form id="form" runat="server">
         <div>
             <div hidden="hidden">
-                <input runat="server" id="DeviceName" type="text" class="js_DeviceName" />
+                <input runat="server" id="DeviceName" type="hidden" class="js_DeviceName" />
             </div>
             <div class="add-device-panel">
                 <div>
@@ -68,10 +70,10 @@
                                 <div class="device-control">
                                     <asp:ImageButton ID="State" runat="server" CommandName="Toggle" Text="Toggle"></asp:ImageButton>
                                     <asp:ImageButton runat="server" CommandName="Remove" Text="Remove" ImageUrl="Content/Images/remove.png"></asp:ImageButton>
+                                    <asp:ImageButton runat="server" CommandName="Rename" CssClass="js_RenameButton" ImageUrl="Content/Images/rename.png"/>
                                     <asp:HiddenField runat="server" ID="DeviceID" />
                                 </div>
                                 <div class="device-name">
-                                    <asp:Button runat="server" CommandName="Rename" Text="Rename" CssClass="js_RenameButton" />
                                     <asp:Label runat="server" ID="Name" CssClass="device-name-label"></asp:Label>
                                 </div>
                                 <div class="image">
@@ -82,10 +84,10 @@
                             <div class="interfaces">
                                 <div class="interfaces-small">
                                     <div runat="server" id="SmallInterfacesTop" visible="False">
-                                        <!-- IBacklight -->
-                                        <asp:Image runat="server" ID="IsHighlightedImage" Visible="False" />
                                         <!-- IOpenable -->
                                         <asp:ImageButton runat="server" ID="OpenCloseButton" CommandName="OpenClose" Visible="False" />
+                                        <!-- IBacklight -->
+                                        <asp:Image runat="server" ID="IsHighlightedImage" Visible="False" />
                                     </div>
                                     <!-- IVolume -->
                                     <div runat="server" id="SmallInterfacesBottom" visible="False">
@@ -131,8 +133,8 @@
                                     <div class="interfaces">
                                         <div class="interfaces-small">
                                             <div>
-                                                <asp:Image runat="server" ID="ColdstoreIsHighlighted" />
                                                 <asp:ImageButton runat="server" ID="ColdstoreOpenCloseButton" CommandName="ColdstoreOpenClose" />
+                                                <asp:Image runat="server" ID="ColdstoreIsHighlighted" />
                                             </div>
                                             <div>
                                                 <asp:Label runat="server" ID="ColdstoreVolumeLabel"></asp:Label>

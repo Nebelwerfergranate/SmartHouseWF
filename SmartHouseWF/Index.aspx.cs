@@ -400,7 +400,7 @@ namespace SmartHouseWF
                 }
 
                 ((Label)e.Item.FindControl("ColdstoreVolumeLabel")).Text =
-                    "Coldstore volume: " + ((Fridge)device).ColdstoreVolume + " l";
+                    "Coldstore volume: " + ((Fridge)device).ColdstoreVolume + " litres";
 
                 // Freezer
                 ImageButton freezerOpenCloseButton = (ImageButton)e.Item.FindControl("FreezerOpenCloseButton");
@@ -419,7 +419,7 @@ namespace SmartHouseWF
                 ((HiddenField)e.Item.FindControl("FreezerMaxTemperature")).Value = ((Fridge)device).FreezerMaxTemperature.ToString();
 
                 ((Label)e.Item.FindControl("FreezerVolumeLabel")).Text =
-                    "Freezer volume: " + ((Fridge)device).FreezeryVolume + " l";
+                    "Freezer volume: " + ((Fridge)device).FreezeryVolume + " litres";
             }
 
             // Specific

@@ -16,6 +16,7 @@
 //  js_TemperatureSetField
 
 $(document).ready(function () {
+    $.scrollTo($.cookie("scrollTop"), 0);
     // Device
     $(".js_AddButton, .js_RenameButton").on("click", function (event) {
         var name = prompt("Enter new device-container name", "");
@@ -143,7 +144,16 @@ $(document).ready(function () {
             }
         });
     });
+
     $.jGrowl.defaults.closerTemplate = '<div>hide all notifications</div>';
+
+    $(".js_RenameButton").each(function (index, value) {
+        value.title = "Rename device";
+    });
+
+    $(document).scroll(function() {
+        $.cookie("scrollTop" ,$(document).scrollTop());
+    });
 });
 
 // Validator

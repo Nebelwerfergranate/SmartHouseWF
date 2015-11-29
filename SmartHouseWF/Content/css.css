@@ -1,21 +1,41 @@
 ﻿body {
+    font-size: 20px;
+    color: #323232;
+    font-weight: bold;
 }
 
+    body input[type="text"], body input[type="submit"] {
+        font-size: 15px;
+        color: #323232;
+        background: white;
+        border: 2px solid white;
+        border-radius: 6px;
+    }
+    body select {
+        font-size: 15px;
+        color: #323232;
+        background: white;
+        border: 2px solid white;
+        border-radius: 4px;
+    }
+
+    body input[type="submit"] {
+        cursor: pointer;
+    }
+
 .all-devices {
-    width: 1250px;
-    height: 2000px;
-    background: gray;
-    font-size: 20px;
+    width: 1108px;
+    position: relative;
+    margin: auto;
 }
 
 .device-container {
-    width: 530px;
+    width: 511px;
     height: 260px;
-    overflow-x: hidden;
-    overflow-y: auto;
     border: 2px solid #323232;
     float: left;
     margin: 10px;
+    background: #AAECF9 none repeat scroll 0% 0%;
 }
 
     .device-container > .device {
@@ -30,100 +50,109 @@
 .device > .device-control {
     width: 200px;
     height: 50px;
+    position: relative;
 }
-
+    /*кнопочки в контрольной панели*/
     .device > .device-control > input[type="image"]:first-child {
         height: 30px;
         width: 30px;
-        margin: 10px 22px 0px 45px;
+        position: absolute;
+        top: 15px;
+        left: 20px;
     }
 
     .device > .device-control > input[type="image"]:nth-child(2) {
         height: 30px;
         width: 30px;
-        margin: 10px 45px 0px 22px;
+        position: absolute;
+        top: 15px;
+        right: 20px;
     }
+
+.device .js_RenameButton {
+    position: absolute;
+    top: 15px;
+    left: 85px;
+    width: 30px;
+    height: 30px;
+}
+
+/* -------------------------------------- */
 
 .device > .device-name {
     width: 200px;
     height: 42px;
     margin: 0px;
     padding: 4px 0px;
-    display: table;
+    position: relative;
 }
 
     .device > .device-name > .device-name-label {
-        width: 100px;
-        max-width: 100px;
+        position: absolute;
+        top: 13px;
+        left: 20px;
+        width: 160px;
         white-space: nowrap;
         overflow: hidden;
-        display: table-cell;
-        vertical-align: middle;
         text-overflow: ellipsis;
+        text-align: center;
     }
 
-    .device > .device-name > .js_RenameButton {
-        float: left;
-        margin-top: 8px;
-        margin-left: 10px;
-        width: 75px;
-    }
 
 .device-container > .interfaces {
     border-left: 1px solid black;
-}
-
-.interfaces {
+    height: 250px;
     width: 300px;
-    float: left;
+    overflow-x: hidden;
+    overflow-y: auto;
     padding: 5px;
 }
 
-    .interfaces input[type="submit"] {
-        margin: 12px;
+.interfaces input[type="submit"] {
+    margin: 12px;
+}
+
+.interfaces > .interfaces-small {
+    display: table;
+}
+
+    .interfaces > .interfaces-small input[type="image"] {
+        width: 100px;
+        height: 50px;
+        margin-top: 5px;
+        margin-left: 30px;
     }
 
-    .interfaces > .interfaces-small {
+    .interfaces > .interfaces-small img {
+        margin-top: 5px;
+        width: 100px;
+        height: 50px;
+    }
+
+    .interfaces > .interfaces-small div:first-child {
+        float: left;
         display: table;
-    }
-
-        .interfaces > .interfaces-small input[type="image"] {
-            width: 100px;
-            height: 50px;
-            margin-top: 5px;
-            margin-left: 30px;
-        }
-
-        .interfaces > .interfaces-small img {
-            margin-top: 5px;
-            width: 100px;
-            height: 50px;
-        }
-
-        .interfaces > .interfaces-small div:first-child {
-            float: left;
-            display: table;
-            text-align: center;
-            width: 300px;
-            height: 60px;
-        }
-
-        .interfaces > .interfaces-small div:nth-child(2) {
-            float: left;
-            display: table;
-            text-align: center;
-            width: 300px;
-            height: 40px;
-        }
-
-        .interfaces > .interfaces-small div span {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-    .interfaces > div {
         text-align: center;
+        width: 300px;
+        height: 60px;
     }
+
+    .interfaces > .interfaces-small div:nth-child(2) {
+        float: left;
+        display: table;
+        text-align: center;
+        width: 300px;
+        height: 40px;
+    }
+
+    .interfaces > .interfaces-small div span {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+.interfaces > div {
+    text-align: center;
+}
 
 .js_HoursSetField, .js_MinutesSetField, .js_SecondsSetField {
     width: 30px;
@@ -140,8 +169,10 @@
 }
 
 .add-device-panel {
-    width: 820px;
-    height: 200px;
+    width: 816px;
+    height: 204px;
+    position: relative;
+    margin: 0 auto 20px auto;
 }
 
     .add-device-panel > div {
@@ -149,7 +180,7 @@
         height: 200px;
         float: left;
         border: 2px solid #323232;
-        background: darkkhaki none repeat scroll 0% 0%;
+        background: #AAECF9 none repeat scroll 0% 0%;
     }
 
     .add-device-panel select {
@@ -180,9 +211,11 @@
     border-top: 2px solid #323232;
     height: 50px;
 }
-.jGrowl-message{
+
+.jGrowl-message {
     color: white;
 }
+
 .jGrowl-notification .jGrowl-close {
     color: white;
 }
