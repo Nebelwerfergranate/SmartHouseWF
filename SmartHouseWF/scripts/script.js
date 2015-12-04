@@ -16,7 +16,7 @@
 //  js_TemperatureSetField
 
 $(document).ready(function () {
-    $.scrollTo($.cookie("scrollTop"), 0);
+    window.scroll($.cookie("scrollLeft"), $.cookie("scrollTop"));
     // Device
     $(".js_AddButton, .js_RenameButton").on("click", function (event) {
         var name = prompt("Enter new device-container name", "");
@@ -152,7 +152,8 @@ $(document).ready(function () {
     });
 
     $(document).scroll(function() {
-        $.cookie("scrollTop" ,$(document).scrollTop());
+        $.cookie("scrollTop", $(document).scrollTop());
+        $.cookie("scrollLeft", $(document).scrollLeft());
     });
 });
 

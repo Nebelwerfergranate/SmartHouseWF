@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="SmartHouseWF.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SmartHouseWF.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="Content/css.css" />
     <script src="scripts/jquery-2.1.4.min.js"></script>
     <script src="scripts/jquery.cookie.js"></script>
-    <script src="scripts/jquery.scrollTo.js"></script>
     <script src="scripts/jquery-ui.min.js"></script>
     <script src="scripts/jquery.color.js"></script>
     <script src="scripts/jquery.jgrowl.js"></script>
